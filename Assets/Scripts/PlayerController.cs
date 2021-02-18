@@ -51,7 +51,7 @@ public static class WaitFor
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float playerRunXOffset = 0.05F;
+    [SerializeField] float playerRunXOffset = 0.1F;
     [SerializeField] float playerJumpYOffset = 3.0F;
     [SerializeField] int forceMultiplier = 100;
     [SerializeField] int projectileVelocitySpeed = 15;
@@ -61,6 +61,13 @@ public class PlayerController : MonoBehaviour
 
     private GameObject playerObject;
     private Rigidbody2D playerRigidBody2D;
+    private Animator playerAnimator;
+    private enum playerState {
+        idle,
+        running,
+        jumping,
+        casting
+    };
 
     private string floorTag = "Floor";
     private string interactiveObjectTag = "InteractiveObject";
@@ -79,6 +86,7 @@ public class PlayerController : MonoBehaviour
         // Init variables
         playerObject = gameObject;
         playerRigidBody2D = GetComponent<Rigidbody2D>();
+        playerAnimator = GetComponent<Animator>();
         // Configure object
         playerRigidBody2D.freezeRotation = true;
         controlScheme = new ControlSheme(playerControlScheme);
@@ -91,19 +99,25 @@ public class PlayerController : MonoBehaviour
         {
             if (standOnFloor || jumpInAirCurrent < jumpsInAirAllowed)
             {
-                this.doJump(playerObject);
+                this.doJump();
                 jumpInAirCurrent++;
             }
         }
         if (Input.GetKey(controlScheme.GetControlKey("left")))
         {
             UpdateFacing("left");
-            this.changePlayerPosition(playerObject, -playerRunXOffset, 0);
+            this.changePlayerPosition(-playerRunXOffset, 0);
+            playerAnimator.SetBool("running", true);
         }
-        if (Input.GetKey(controlScheme.GetControlKey("right")))
+        else if (Input.GetKey(controlScheme.GetControlKey("right")))
         {
             UpdateFacing("right");
-            this.changePlayerPosition(playerObject, playerRunXOffset, 0);
+            this.changePlayerPosition(playerRunXOffset, 0);
+            playerAnimator.SetBool("running", true);
+        }
+        else
+        {
+            playerAnimator.SetBool("running", false);
         }
         if (Input.GetKeyDown(controlScheme.GetControlKey("fire")))
         {
@@ -197,16 +211,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void changePlayerPosition(GameObject playerObj, float xOffset, float yOffset)
+    void changePlayerPosition(float xOffset, float yOffset)
     {
-        Vector2 playerPosition = playerObj.transform.position;
+        Vector2 playerPosition = playerObject.transform.position;
         Vector2 direction = new Vector2(playerPosition.x + xOffset, playerPosition.y + yOffset) - playerPosition;
-        playerObj.GetComponent<Rigidbody2D>().AddForce(direction * forceMultiplier);
+        playerRigidBody2D.AddForce(direction * forceMultiplier);
     }
 
-    void doJump(GameObject playerObj)
+    void doJump()
     {
-        Vector2 playerPosition = playerObj.transform.position;
+        Vector2 playerPosition = playerObject.transform.position;
         Vector2 direction = new Vector2(playerPosition.x, playerPosition.y + playerJumpYOffset) - playerPosition;
         playerRigidBody2D.AddForce(direction * forceMultiplier);
     }
