@@ -16,7 +16,7 @@ class ControlSheme
                 keyBindings.Add("up", KeyCode.UpArrow);
                 keyBindings.Add("left", KeyCode.LeftArrow);
                 keyBindings.Add("right", KeyCode.RightArrow);
-                keyBindings.Add("fire", KeyCode.Greater);
+                keyBindings.Add("fire", KeyCode.Period);
                 break;
             case 2:
                 keyBindings.Add("up", KeyCode.W);
@@ -54,8 +54,10 @@ public class LichKing : MonoBehaviour
     [SerializeField] float playerRunXOffset = 0.05F;
     [SerializeField] float playerJumpYOffset = 3.0F;
     [SerializeField] int forceMultiplier = 100;
+    [SerializeField] int projectileVelocitySpeed = 15;
     [SerializeField] int jumpsInAirAllowed = 2;
     [SerializeField] int playerControlScheme = 1;
+    [SerializeField] float projectileNextFireDelay = .5F;
 
     private GameObject playerObject;
     private Rigidbody2D playerRigidBody2D;
@@ -67,7 +69,8 @@ public class LichKing : MonoBehaviour
     private ControlSheme controlScheme;
     private string playerFacing = "right";
     private int animationStepFrameCount = 2;
-    private bool projectileFired = false;
+    private bool canFireProjectile = true;
+    private int projectileStartOffsetX = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -85,8 +88,6 @@ public class LichKing : MonoBehaviour
     {
         if (Input.GetKeyDown(controlScheme.GetControlKey("up")))
         {
-            Scene scene = SceneManager.GetActiveScene();
-            Debug.Log("Active Scene is '" + scene.name + "'.");
             if (standOnFloor || jumpInAirCurrent < jumpsInAirAllowed)
             {
                 this.doJump(playerObject);
@@ -103,21 +104,37 @@ public class LichKing : MonoBehaviour
             UpdateFacing("right");
             this.changePlayerPosition(playerObject, playerRunXOffset, 0);
         }
-        if (Input.GetKey(controlScheme.GetControlKey("fire")))
+        if (Input.GetKeyDown(controlScheme.GetControlKey("fire")))
         {
-            if (!projectileFired)
+            if (CanFireProjectile())
             {
-                // Create Projectile
-                createProjectile();
+                StartCoroutine(CreateProjectile());
             }
         }
     }
 
-    void createProjectile()
+    private bool CanFireProjectile()
     {
+        return canFireProjectile;
+    }
+
+    private void setCanFireProjectileState(bool newState)
+    {
+        canFireProjectile = newState;
+    }
+
+    private IEnumerator CreateProjectile()
+    {
+        setCanFireProjectileState(false);
         GameObject projectile = GameObject.Find("Projectile");
-        GameObject projectileClone = Instantiate(projectile, transform.position, transform.rotation);
-        projectileClone.transform.position += Vector3.forward * 100 * Time.deltaTime;
+        Vector3 projectileStartPositionOffset = new Vector3(projectileStartOffsetX * (playerFacing == "left" ? -1 : 1), 0, 0);
+        Vector3 projectileVelocity = new Vector3(projectileVelocitySpeed * (playerFacing == "left" ? -1 : 1), 0, 0);
+        GameObject projectileClone = Instantiate(projectile, transform.position + projectileStartPositionOffset, transform.rotation);
+        // Let projectile moving
+        projectileClone.GetComponent<Rigidbody2D>().velocity = projectileVelocity;
+        // Wait some time and allow fire again
+        yield return new WaitForSeconds(projectileNextFireDelay);
+        setCanFireProjectileState(true);
     }
 
     void UpdateFacing(string newDirection)
