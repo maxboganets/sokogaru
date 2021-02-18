@@ -49,7 +49,7 @@ public static class WaitFor
     }
 }
 
-public class LichKing : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] float playerRunXOffset = 0.05F;
     [SerializeField] float playerJumpYOffset = 3.0F;
@@ -57,7 +57,7 @@ public class LichKing : MonoBehaviour
     [SerializeField] int projectileVelocitySpeed = 15;
     [SerializeField] int jumpsInAirAllowed = 2;
     [SerializeField] int playerControlScheme = 1;
-    [SerializeField] float projectileNextFireDelay = .5F;
+    [SerializeField] float delayBetweenProjectiles = .5F;
 
     private GameObject playerObject;
     private Rigidbody2D playerRigidBody2D;
@@ -71,6 +71,7 @@ public class LichKing : MonoBehaviour
     private int animationStepFrameCount = 2;
     private bool canFireProjectile = true;
     private int projectileStartOffsetX = 1;
+    private float projectileLifeTime = .5F;
 
     // Start is called before the first frame update
     void Start()
@@ -132,8 +133,10 @@ public class LichKing : MonoBehaviour
         GameObject projectileClone = Instantiate(projectile, transform.position + projectileStartPositionOffset, transform.rotation);
         // Let projectile moving
         projectileClone.GetComponent<Rigidbody2D>().velocity = projectileVelocity;
+        // Destroy Projectile after delay
+        Destroy(projectileClone, projectileLifeTime);
         // Wait some time and allow fire again
-        yield return new WaitForSeconds(projectileNextFireDelay);
+        yield return new WaitForSeconds(delayBetweenProjectiles);
         setCanFireProjectileState(true);
     }
 
@@ -185,6 +188,7 @@ public class LichKing : MonoBehaviour
             jumpInAirCurrent = 0;
         }
     }
+
     void OnCollisionExit2D(Collision2D otherObj)
     {
         if (collideWithFloor(otherObj))
