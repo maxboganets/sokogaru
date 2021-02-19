@@ -1,41 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 using UnityEngine;
-
-class ControlSheme
-{
-    private Dictionary<string, UnityEngine.KeyCode> keyBindings =
-        new Dictionary<string, UnityEngine.KeyCode>();
-
-    public ControlSheme(int playerControlScheme)
-    {
-        switch (playerControlScheme)
-        {
-            case 1:
-                keyBindings.Add("up", KeyCode.UpArrow);
-                keyBindings.Add("left", KeyCode.LeftArrow);
-                keyBindings.Add("right", KeyCode.RightArrow);
-                keyBindings.Add("fire", KeyCode.Period);
-                break;
-            case 2:
-                keyBindings.Add("up", KeyCode.W);
-                keyBindings.Add("left", KeyCode.A);
-                keyBindings.Add("right", KeyCode.D);
-                keyBindings.Add("fire", KeyCode.Alpha1);
-                break;
-        }
-    }
-
-    public UnityEngine.KeyCode GetControlKey(string keyName)
-    {
-        if (keyBindings.ContainsKey(keyName))
-        {
-            return keyBindings[keyName];
-        }
-        return KeyCode.None;
-    }
-}
 
 public static class WaitFor
 {
@@ -49,6 +15,7 @@ public static class WaitFor
     }
 }
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] bool animateFlip = false;
@@ -56,29 +23,50 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float playerJumpForce = 200;
     [SerializeField] int projectileVelocitySpeed = 15;
     [SerializeField] int jumpsInAirAllowed = 2;
-    [SerializeField] int playerControlScheme = 1;
+    [SerializeField] int FlipAnimationStepInFrames = 2;
+    [SerializeField] float projectileStartOffsetX = 1;
+    [SerializeField] float projectileLifeTime = .5F;
     [SerializeField] float delayBetweenProjectiles = .5F;
 
     private GameObject playerObject;
     private Rigidbody2D playerRigidBody2D;
     private Animator playerAnimator;
-    private enum playerState {
+    private CharacterController playerController;
+    private enum PlayerState {
         idle,
         running,
         jumping,
         casting
     };
 
+    private Vector2 movementInput = Vector2.zero;
+    private bool jumpTriggered = false;
+    private bool fireProjectileTriggered = false;
+    private PlayerState playerState = PlayerState.idle;
     private string floorTag = "Floor";
     private string interactiveObjectTag = "InteractiveObject";
     private bool standOnFloor = false;
     private int jumpInAirCurrent = 0;
-    private ControlSheme controlScheme;
     private string playerFacing = "right";
-    private int animationStepFrameCount = 2;
     private bool canFireProjectile = true;
-    private int projectileStartOffsetX = 1;
-    private float projectileLifeTime = .5F;
+
+    // Callback function for OnMove
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        movementInput = context.ReadValue<Vector2>();
+    }
+
+    // Callback function for OnJump
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        jumpTriggered = context.ReadValueAsButton();
+    }
+
+    // Callback function for OnFireProjectile
+    public void OnFireProjectile(InputAction.CallbackContext context)
+    {
+        fireProjectileTriggered = context.ReadValueAsButton();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -89,29 +77,31 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         // Configure object
         playerRigidBody2D.freezeRotation = true;
-        controlScheme = new ControlSheme(playerControlScheme);
         // Set facing direction based on flipX value of the game object
         playerFacing = gameObject.GetComponent<SpriteRenderer>().flipX ? "left" : "right";
+        // save <CharacterController> as private variable
+        playerController = playerObject.GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(controlScheme.GetControlKey("up")))
+        if (jumpTriggered)
         {
             if (standOnFloor || jumpInAirCurrent < jumpsInAirAllowed)
             {
                 this.doJump();
                 jumpInAirCurrent++;
             }
+            jumpTriggered = false;
         }
-        if (Input.GetKey(controlScheme.GetControlKey("left")))
+        if (movementInput.x < 0)
         {
             UpdateFacing("left");
             this.doWalk();
             playerAnimator.SetBool("running", true);
         }
-        else if (Input.GetKey(controlScheme.GetControlKey("right")))
+        else if (movementInput.x > 0)
         {
             UpdateFacing("right");
             this.doWalk();
@@ -121,12 +111,13 @@ public class PlayerController : MonoBehaviour
         {
             playerAnimator.SetBool("running", false);
         }
-        if (Input.GetKeyDown(controlScheme.GetControlKey("fire")))
+        if (fireProjectileTriggered)
         {
             if (CanFireProjectile())
             {
                 StartCoroutine(CreateProjectile());
             }
+            fireProjectileTriggered = false;
         }
     }
 
@@ -183,14 +174,14 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < stepsScaleChange; i++)
         {
             ChangePlayerObjectLocalScaleX(0.5F);
-            yield return StartCoroutine(WaitFor.Frames(animationStepFrameCount));
+            yield return StartCoroutine(WaitFor.Frames(FlipAnimationStepInFrames));
         }
         ChangePlayerObjectLocalScaleX(-1);
-        yield return StartCoroutine(WaitFor.Frames(animationStepFrameCount));
+        yield return StartCoroutine(WaitFor.Frames(FlipAnimationStepInFrames));
         for (int i = 0; i < stepsScaleChange; i++)
         {
             ChangePlayerObjectLocalScaleX(2);
-            yield return StartCoroutine(WaitFor.Frames(animationStepFrameCount));
+            yield return StartCoroutine(WaitFor.Frames(FlipAnimationStepInFrames));
         }
     }
 
@@ -212,6 +203,10 @@ public class PlayerController : MonoBehaviour
         {
             standOnFloor = true;
             jumpInAirCurrent = 0;
+        }
+        if (otherObj.collider.gameObject.tag == interactiveObjectTag)
+        {
+            otherObj.rigidbody.AddExplosionForce(100, this.transform.position, 5);
         }
     }
 
