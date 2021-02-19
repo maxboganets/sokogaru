@@ -134,7 +134,8 @@ public class PlayerController : MonoBehaviour
     private IEnumerator CreateProjectile()
     {
         setCanFireProjectileState(false);
-        GameObject projectile = GameObject.Find("Projectile");
+        //GameObject projectile = GameObject.Find("Projectile");
+        GameObject projectile = Instantiate(Resources.Load("Projectile")) as GameObject;
         Vector3 projectileStartPositionOffset = new Vector3(projectileStartOffsetX * (playerFacing == "left" ? -1 : 1), 0, 0);
         Vector3 projectileVelocity = new Vector3(projectileVelocitySpeed * (playerFacing == "left" ? -1 : 1), 0, 0);
         GameObject projectileClone = Instantiate(projectile, transform.position + projectileStartPositionOffset, transform.rotation);
