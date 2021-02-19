@@ -43,9 +43,9 @@ public class PlayerController : MonoBehaviour
     private bool jumpTriggered = false;
     private bool fireProjectileTriggered = false;
     private PlayerState playerState = PlayerState.idle;
-    private string floorTag = "Floor";
+    private string groundTag = "Floor";
     private string interactiveObjectTag = "InteractiveObject";
-    private bool standOnFloor = false;
+    private bool isGrounded = false;
     private int jumpInAirCurrent = 0;
     private string playerFacing = "right";
     private bool canFireProjectile = true;
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
     {
         if (jumpTriggered)
         {
-            if (standOnFloor || jumpInAirCurrent < jumpsInAirAllowed)
+            if (isGrounded || jumpInAirCurrent < jumpsInAirAllowed)
             {
                 this.doJump();
                 jumpInAirCurrent++;
@@ -190,18 +190,18 @@ public class PlayerController : MonoBehaviour
         ChangePlayerObjectLocalScaleX(-1);
     }
 
-    private bool collideWithFloor(Collision2D gameObject)
+    private bool collideWithGround(Collision2D gameObject)
     {
-        return (gameObject.gameObject.tag == floorTag || gameObject.gameObject.tag == interactiveObjectTag)
+        return (gameObject.gameObject.tag == groundTag || gameObject.gameObject.tag == interactiveObjectTag)
             ? true
             : false;
     }
 
     void OnCollisionEnter2D(Collision2D otherObj)
     {
-        if (collideWithFloor(otherObj))
+        if (collideWithGround(otherObj))
         {
-            standOnFloor = true;
+            isGrounded = true;
             jumpInAirCurrent = 0;
         }
         if (otherObj.collider.gameObject.tag == interactiveObjectTag)
@@ -212,9 +212,9 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D otherObj)
     {
-        if (collideWithFloor(otherObj))
+        if (collideWithGround(otherObj))
         {
-            standOnFloor = false;
+            isGrounded = false;
         }
     }
 
