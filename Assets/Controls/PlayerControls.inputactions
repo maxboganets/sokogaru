@@ -19,7 +19,7 @@
                     "id": "a839750d-cfb0-41ac-8b84-0512241cc09d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 },
                 {
                     "name": "FireProjectile",
@@ -27,7 +27,7 @@
                     "id": "f1238ea5-51b6-4901-804f-8147c9290901",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -38,17 +38,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardArrows",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4b0ded45-ee62-4071-836f-21b17b406475",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardWASD",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -87,56 +76,12 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "WASD",
-                    "id": "9a57bdba-b0d9-4a43-bf4b-36833e4acbb9",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "left",
-                    "id": "014fd699-31d9-49f7-827d-ec3c05cefd84",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardWASD",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "726e2f64-97a7-4870-83ae-2694acabb8ac",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardWASD",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "8dc446bc-29c0-4206-b32c-eb60e18badc5",
                     "path": "<Keyboard>/period",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardArrows",
-                    "action": "FireProjectile",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "03c2f4e7-0270-4563-95b5-d5ac62d114c5",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardWASD",
                     "action": "FireProjectile",
                     "isComposite": false,
                     "isPartOfComposite": false

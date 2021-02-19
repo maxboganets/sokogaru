@@ -183,7 +183,7 @@ MonoBehaviour:
   projectileVelocitySpeed: 15
   jumpsInAirAllowed: 2
   FlipAnimationStepInFrames: 2
-  projectileStartOffsetX: 1
+  projectileStartOffsetX: 0.5
   projectileLifeTime: 0.5
   delayBetweenProjectiles: 0.5
 --- !u!114 &6818903222599744954
