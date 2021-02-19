@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 289854258}
   - component: {fileID: 289854259}
   - component: {fileID: 289854260}
+  - component: {fileID: 289854261}
   m_Layer: 0
   m_Name: TX Village Props Crate Large
   m_TagString: InteractiveObject
@@ -254,6 +255,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &289854261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 289854256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b504ef200dc184f10ac7488b1545a8fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &346339905
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,6 +280,7 @@ GameObject:
   - component: {fileID: 346339908}
   - component: {fileID: 346339907}
   - component: {fileID: 346339906}
+  - component: {fileID: 346339911}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Projectile
@@ -286,10 +300,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -406,12 +420,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346339905}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.519, y: -3.546, z: 0}
+  m_LocalPosition: {x: -9.64, y: -6.867, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &346339911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 346339905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18ccd1d97b754bd59a4f0167be6df10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &500920021
 GameObject:
   m_ObjectHideFlags: 0
@@ -835,6 +861,7 @@ GameObject:
   - component: {fileID: 857097574}
   - component: {fileID: 857097575}
   - component: {fileID: 857097576}
+  - component: {fileID: 857097577}
   m_Layer: 0
   m_Name: TX Village Props Crate Large (2)
   m_TagString: InteractiveObject
@@ -954,6 +981,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &857097577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857097572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b504ef200dc184f10ac7488b1545a8fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &876145252
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,6 +1005,7 @@ GameObject:
   - component: {fileID: 876145254}
   - component: {fileID: 876145255}
   - component: {fileID: 876145256}
+  - component: {fileID: 876145257}
   m_Layer: 0
   m_Name: TX Village Props Crate Large (1)
   m_TagString: InteractiveObject
@@ -1085,6 +1125,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &876145257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876145252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b504ef200dc184f10ac7488b1545a8fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1229960583
 GameObject:
   m_ObjectHideFlags: 0
@@ -1459,11 +1511,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364efee553d5f4823a8d2a8b2c5dc5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRunXOffset: 0.05
+  playerRunXOffset: 0.1
   playerJumpYOffset: 2
   forceMultiplier: 100
+  projectileVelocitySpeed: 15
   jumpsInAirAllowed: 2
   playerControlScheme: 1
+  delayBetweenProjectiles: 0.5
 --- !u!1 &1544719448
 GameObject:
   m_ObjectHideFlags: 0

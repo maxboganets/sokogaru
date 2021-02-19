@@ -51,9 +51,9 @@ public static class WaitFor
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float playerRunXOffset = 0.1F;
-    [SerializeField] float playerJumpYOffset = 3.0F;
-    [SerializeField] int forceMultiplier = 100;
+    [SerializeField] bool animateFlip = false;
+    [SerializeField] float playerRunForce = 10;
+    [SerializeField] float playerJumpForce = 200;
     [SerializeField] int projectileVelocitySpeed = 15;
     [SerializeField] int jumpsInAirAllowed = 2;
     [SerializeField] int playerControlScheme = 1;
@@ -90,6 +90,8 @@ public class PlayerController : MonoBehaviour
         // Configure object
         playerRigidBody2D.freezeRotation = true;
         controlScheme = new ControlSheme(playerControlScheme);
+        // Set facing direction based on flipX value of the game object
+        playerFacing = gameObject.GetComponent<SpriteRenderer>().flipX ? "left" : "right";
     }
 
     // Update is called once per frame
@@ -106,13 +108,13 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(controlScheme.GetControlKey("left")))
         {
             UpdateFacing("left");
-            this.changePlayerPosition(-playerRunXOffset, 0);
+            this.doWalk();
             playerAnimator.SetBool("running", true);
         }
         else if (Input.GetKey(controlScheme.GetControlKey("right")))
         {
             UpdateFacing("right");
-            this.changePlayerPosition(playerRunXOffset, 0);
+            this.doWalk();
             playerAnimator.SetBool("running", true);
         }
         else
@@ -159,7 +161,12 @@ public class PlayerController : MonoBehaviour
         if (playerFacing != newDirection)
         {
             playerFacing = newDirection;
-            StartCoroutine(AnimateChangeFacing());
+            if (animateFlip)
+            {
+                StartCoroutine(AnimateChangeFacing());
+            } else {
+                ChangeFacingImmediate();
+            }
         }
     }
 
@@ -187,6 +194,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void ChangeFacingImmediate()
+    {
+        ChangePlayerObjectLocalScaleX(-1);
+    }
+
     private bool collideWithFloor(Collision2D gameObject)
     {
         return (gameObject.gameObject.tag == floorTag || gameObject.gameObject.tag == interactiveObjectTag)
@@ -211,17 +223,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void changePlayerPosition(float xOffset, float yOffset)
+    void doWalk()
     {
-        Vector2 playerPosition = playerObject.transform.position;
-        Vector2 direction = new Vector2(playerPosition.x + xOffset, playerPosition.y + yOffset) - playerPosition;
-        playerRigidBody2D.AddForce(direction * forceMultiplier);
+        float forceWithDirection = playerFacing == "right" ? playerRunForce : -playerRunForce;
+        Vector2 forceVector = new Vector2(forceWithDirection, 0);
+        playerRigidBody2D.AddForce(forceVector);
     }
 
     void doJump()
     {
-        Vector2 playerPosition = playerObject.transform.position;
-        Vector2 direction = new Vector2(playerPosition.x, playerPosition.y + playerJumpYOffset) - playerPosition;
-        playerRigidBody2D.AddForce(direction * forceMultiplier);
+        Vector2 forceVector = new Vector2(0, playerJumpForce);
+        playerRigidBody2D.AddForce(forceVector);
     }
 }
