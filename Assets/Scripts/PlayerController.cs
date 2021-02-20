@@ -32,6 +32,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D playerRigidBody2D;
     private Animator playerAnimator;
     private CharacterController playerController;
+    private enum PlayerFacing
+    {
+        right,
+        left
+    };
     private enum PlayerState {
         idle,
         running,
@@ -48,7 +53,7 @@ public class PlayerController : MonoBehaviour
     private string interactiveObjectTag = "InteractiveObject";
     private bool isGrounded = false;
     private int jumpInAirCurrent = 0;
-    private string playerFacing = "right";
+    private PlayerFacing playerFacing;
     private bool canFireProjectile = true;
 
     // Callback function for OnMove
@@ -79,7 +84,7 @@ public class PlayerController : MonoBehaviour
         // Configure object
         playerRigidBody2D.freezeRotation = true;
         // Set facing direction based on flipX value of the game object
-        playerFacing = gameObject.GetComponent<SpriteRenderer>().flipX ? "left" : "right";
+        playerFacing = gameObject.GetComponent<SpriteRenderer>().flipX ? PlayerFacing.left : PlayerFacing.right;
         // save <CharacterController> as private variable
         playerController = playerObject.GetComponent<CharacterController>();
     }
@@ -97,22 +102,12 @@ public class PlayerController : MonoBehaviour
             }
             jumpTriggered = false;
         }
-        if (movementInput.x < 0)
-        {
+        if (movementInput.x != 0) {
             if (this.GetPlayerState() != PlayerState.jumping && isGrounded)
             {
                 this.SetPlayerState(PlayerState.running);
             }
-            UpdateFacing("left");
-            this.doWalk();
-        }
-        else if (movementInput.x > 0)
-        {
-            if (this.GetPlayerState() != PlayerState.jumping && isGrounded)
-            {
-                this.SetPlayerState(PlayerState.running);
-            }
-            UpdateFacing("right");
+            UpdateFacing(movementInput.x > 0 ? PlayerFacing.right : PlayerFacing.left);
             this.doWalk();
         }
         if (fireProjectileTriggered)
@@ -182,8 +177,8 @@ public class PlayerController : MonoBehaviour
         setCanFireProjectileState(false);
         //GameObject projectile = GameObject.Find("Projectile");
         GameObject projectile = Instantiate(Resources.Load("Projectile")) as GameObject;
-        Vector3 projectileStartPositionOffset = new Vector3(projectileStartOffsetX * (playerFacing == "left" ? -1 : 1), 0, 0);
-        Vector3 projectileVelocity = new Vector3(projectileVelocitySpeed * (playerFacing == "left" ? -1 : 1), 0, 0);
+        Vector3 projectileStartPositionOffset = new Vector3(projectileStartOffsetX * (playerFacing == PlayerFacing.left ? -1 : 1), 0, 0);
+        Vector3 projectileVelocity = new Vector3(projectileVelocitySpeed * (playerFacing == PlayerFacing.left ? -1 : 1), 0, 0);
         GameObject projectileClone = Instantiate(projectile, transform.position + projectileStartPositionOffset, transform.rotation);
         // Let projectile moving
         projectileClone.GetComponent<Rigidbody2D>().velocity = projectileVelocity;
@@ -194,7 +189,7 @@ public class PlayerController : MonoBehaviour
         setCanFireProjectileState(true);
     }
 
-    void UpdateFacing(string newDirection)
+    void UpdateFacing(PlayerFacing newDirection)
     {
         if (playerFacing != newDirection)
         {
@@ -267,7 +262,7 @@ public class PlayerController : MonoBehaviour
 
     void doWalk()
     {
-        float forceWithDirection = playerFacing == "right" ? playerRunForce : -playerRunForce;
+        float forceWithDirection = playerFacing == PlayerFacing.right ? playerRunForce : -playerRunForce;
         Vector2 forceVector = new Vector2(forceWithDirection, 0);
         playerRigidBody2D.AddForce(forceVector);
     }
