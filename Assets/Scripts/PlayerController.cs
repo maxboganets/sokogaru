@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
@@ -37,6 +36,12 @@ public class PlayerController : MonoBehaviour
         right,
         left
     };
+    private enum ControlAction
+    {
+        none,
+        jump,
+        cast
+    }
     private enum PlayerState {
         idle,
         running,
@@ -46,8 +51,7 @@ public class PlayerController : MonoBehaviour
     };
 
     private Vector2 movementInput = Vector2.zero;
-    private bool jumpTriggered = false;
-    private bool fireProjectileTriggered = false;
+    private ControlAction actionTriggered = ControlAction.none;
     private PlayerState playerState = PlayerState.idle;
     private string groundTag = "Floor";
     private string interactiveObjectTag = "InteractiveObject";
@@ -65,13 +69,21 @@ public class PlayerController : MonoBehaviour
     // Callback function for OnJump
     public void OnJump(InputAction.CallbackContext context)
     {
-        jumpTriggered = context.ReadValueAsButton();
+        if (context.ReadValueAsButton())
+        {
+            this.SetActionTriggered(ControlAction.jump);
+
+        }
     }
 
     // Callback function for OnFireProjectile
     public void OnFireProjectile(InputAction.CallbackContext context)
     {
-        fireProjectileTriggered = context.ReadValueAsButton();
+        if (context.ReadValueAsButton())
+        {
+            this.SetActionTriggered(ControlAction.cast);
+
+        }
     }
 
     // Start is called before the first frame update
@@ -92,7 +104,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (jumpTriggered)
+        ControlAction cAction = this.GetActionTriggered();
+        if (cAction == ControlAction.jump)
         {
             if (isGrounded || jumpInAirCurrent < jumpsInAirAllowed)
             {
@@ -100,7 +113,7 @@ public class PlayerController : MonoBehaviour
                 this.doJump();
                 jumpInAirCurrent++;
             }
-            jumpTriggered = false;
+            this.SetActionTriggered(ControlAction.none);
         }
         if (movementInput.x != 0) {
             if (this.GetPlayerState() != PlayerState.jumping && isGrounded)
@@ -110,13 +123,13 @@ public class PlayerController : MonoBehaviour
             UpdateFacing(movementInput.x > 0 ? PlayerFacing.right : PlayerFacing.left);
             this.doWalk();
         }
-        if (fireProjectileTriggered)
+        if (cAction == ControlAction.cast)
         {
             if (CanFireProjectile())
             {
                 StartCoroutine(CreateProjectile());
             }
-            fireProjectileTriggered = false;
+            this.SetActionTriggered(ControlAction.none);
         }
 
         velocityState();
@@ -152,6 +165,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private ControlAction GetActionTriggered()
+    {
+        return actionTriggered;
+    }
+
+    private void SetActionTriggered(ControlAction newAction)
+    {
+        actionTriggered = newAction;
+    }
+
     private PlayerState GetPlayerState()
     {
         return playerState;
@@ -161,6 +184,7 @@ public class PlayerController : MonoBehaviour
     {
         playerState = newState;
     }
+
 
     private bool CanFireProjectile()
     {
