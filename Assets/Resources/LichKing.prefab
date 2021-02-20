@@ -121,7 +121,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.8
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animateFlip: 0
   playerRunForce: 10
-  playerJumpForce: 200
+  playerJumpForce: 280
   projectileVelocitySpeed: 15
   jumpsInAirAllowed: 2
   FlipAnimationStepInFrames: 2

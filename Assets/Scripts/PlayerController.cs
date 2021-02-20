@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] bool animateFlip = false;
     [SerializeField] float playerRunForce = 10;
-    [SerializeField] float playerJumpForce = 200;
+    [SerializeField] float playerJumpForce = 280;
     [SerializeField] int projectileVelocitySpeed = 15;
     [SerializeField] int jumpsInAirAllowed = 2;
     [SerializeField] int FlipAnimationStepInFrames = 2;
