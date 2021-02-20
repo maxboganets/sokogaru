@@ -76,6 +76,17 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "2D Vector",
+                    "id": "bf98b0c7-aebf-48d9-b28e-b8120814e647",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
                     "name": "",
                     "id": "8dc446bc-29c0-4206-b32c-eb60e18badc5",
                     "path": "<Keyboard>/period",

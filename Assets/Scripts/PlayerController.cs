@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
         idle,
         running,
         jumping,
+        falling,
         casting
     };
 
@@ -90,6 +91,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isGrounded || jumpInAirCurrent < jumpsInAirAllowed)
             {
+                this.SetPlayerState(PlayerState.jumping);
                 this.doJump();
                 jumpInAirCurrent++;
             }
@@ -97,19 +99,21 @@ public class PlayerController : MonoBehaviour
         }
         if (movementInput.x < 0)
         {
+            if (this.GetPlayerState() != PlayerState.jumping && isGrounded)
+            {
+                this.SetPlayerState(PlayerState.running);
+            }
             UpdateFacing("left");
             this.doWalk();
-            playerAnimator.SetBool("running", true);
         }
         else if (movementInput.x > 0)
         {
+            if (this.GetPlayerState() != PlayerState.jumping && isGrounded)
+            {
+                this.SetPlayerState(PlayerState.running);
+            }
             UpdateFacing("right");
             this.doWalk();
-            playerAnimator.SetBool("running", true);
-        }
-        else
-        {
-            playerAnimator.SetBool("running", false);
         }
         if (fireProjectileTriggered)
         {
@@ -119,6 +123,48 @@ public class PlayerController : MonoBehaviour
             }
             fireProjectileTriggered = false;
         }
+
+        velocityState();
+        playerAnimator.SetInteger("state", (int)this.GetPlayerState());
+    }
+
+    private void velocityState()
+    {
+        PlayerState state = this.GetPlayerState();
+        if (state == PlayerState.idle)
+        {
+            return;
+        }
+
+        if (state == PlayerState.jumping)
+        {
+            if (playerRigidBody2D.velocity.y < .1F)
+            {
+                this.SetPlayerState(PlayerState.falling);
+            }
+        } else if (state == PlayerState.falling)
+        {
+            if (isGrounded)
+            {
+                this.SetPlayerState(PlayerState.idle);
+            }
+        } else if (Mathf.Abs(playerRigidBody2D.velocity.x) > 1F)
+        {
+            this.SetPlayerState(PlayerState.running);
+        } else
+        {
+            this.SetPlayerState(PlayerState.idle);
+        }
+    }
+
+    private PlayerState GetPlayerState()
+    {
+        return playerState;
+    }
+
+    private void SetPlayerState(PlayerState newState)
+    {
+        playerState = newState;
     }
 
     private bool CanFireProjectile()

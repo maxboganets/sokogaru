@@ -1396,7 +1396,7 @@ MonoBehaviour:
     - original: 62
       remapped: 18
     - original: 8
-      remapped: 41
+      remapped: 20
 --- !u!1 &1591432715
 GameObject:
   m_ObjectHideFlags: 0
