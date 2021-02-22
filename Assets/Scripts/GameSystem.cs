@@ -1,9 +1,41 @@
 using UnityEngine.InputSystem;
 using UnityEngine;
 
+public class Player
+{
+    private PlayerInput player;
+    private int playerIndex;
+
+    public Player(GameObject playerPrefab, int playerIndex, string controlScheme, InputDevice controlDevice)
+    {
+        this.playerIndex = playerIndex;
+
+        player = PlayerInput.Instantiate(
+            playerPrefab,
+            -1,
+            controlScheme,
+            -1,
+            controlDevice
+        );
+
+        player.GetComponent<Rigidbody2D>().transform.position = GameObject.Find("Player"+ playerIndex +"Spawn").transform.position;
+    }
+
+    public int GetIndex()
+    {
+        return this.playerIndex;
+    }
+}
+
 public class GameSystem : MonoBehaviour
 {
     public static GameSystem Instance { get; private set; }
+
+    private void Start()
+    {
+        var player1 = new Player(Resources.Load("LichKing") as GameObject, 1, "KeyboardWASD", Keyboard.current);
+        var player2 = new Player(Resources.Load("LichKing") as GameObject, 2, "KeyboardArrows", Keyboard.current);
+    }
 
     void Awake()
     {
@@ -14,9 +46,6 @@ public class GameSystem : MonoBehaviour
         }
 
         Instance = this;
-
-        //var player1 = PlayerInput.Instantiate(Resources.Load("LichKing") as GameObject, controlScheme: "KeyboardArrows", devices: new[] {Keyboard.current});
-        //var player2 = PlayerInput.Instantiate(Resources.Load("LichKing") as GameObject, controlScheme: "KeyboardWASD", devices: new[] {Keyboard.current});
     }
 
     void Update()

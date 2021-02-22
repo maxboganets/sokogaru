@@ -11,7 +11,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background Objects
   - Water
   - UI
   - 
@@ -43,6 +43,9 @@ TagManager:
   m_SortingLayers:
   - name: Background
     uniqueID: 783487355
+    locked: 0
+  - name: Background Objects
+    uniqueID: 3340952113
     locked: 0
   - name: Scene Objects
     uniqueID: 1638706067

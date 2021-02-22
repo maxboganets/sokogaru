@@ -17,6 +17,9 @@ public static class WaitFor
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] GameObject rangeProjectilePrefab;
+    [SerializeField] bool hasMeeleeAttack = false;
+    [SerializeField] bool hasRangeAttack = true;
     [SerializeField] bool animateFlip = false;
     [SerializeField] float playerRunForce = 10;
     [SerializeField] float playerJumpForce = 280;
@@ -40,14 +43,16 @@ public class PlayerController : MonoBehaviour
     {
         none,
         jump,
-        cast
+        meeleeAttack,
+        rangeAttack
     }
     private enum PlayerState {
         idle,
         running,
         jumping,
         falling,
-        casting
+        attackingMeelee,
+        attackingFromRange
     };
 
     private Vector2 movementInput = Vector2.zero;
@@ -76,12 +81,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Callback function for OnFireProjectile
-    public void OnFireProjectile(InputAction.CallbackContext context)
+    // Callback function for onRangeAttack
+    public void onRangeAttack(InputAction.CallbackContext context)
     {
-        if (context.ReadValueAsButton())
+        if (hasRangeAttack && context.ReadValueAsButton())
         {
-            this.SetActionTriggered(ControlAction.cast);
+            this.SetActionTriggered(ControlAction.rangeAttack);
 
         }
     }
@@ -123,7 +128,7 @@ public class PlayerController : MonoBehaviour
             UpdateFacing(movementInput.x > 0 ? PlayerFacing.right : PlayerFacing.left);
             this.doWalk();
         }
-        if (cAction == ControlAction.cast)
+        if (cAction == ControlAction.rangeAttack)
         {
             if (CanFireProjectile())
             {
@@ -199,11 +204,9 @@ public class PlayerController : MonoBehaviour
     private IEnumerator CreateProjectile()
     {
         setCanFireProjectileState(false);
-        //GameObject projectile = GameObject.Find("Projectile");
-        GameObject projectile = Instantiate(Resources.Load("Projectile")) as GameObject;
         Vector3 projectileStartPositionOffset = new Vector3(projectileStartOffsetX * (playerFacing == PlayerFacing.left ? -1 : 1), 0, 0);
         Vector3 projectileVelocity = new Vector3(projectileVelocitySpeed * (playerFacing == PlayerFacing.left ? -1 : 1), 0, 0);
-        GameObject projectileClone = Instantiate(projectile, transform.position + projectileStartPositionOffset, transform.rotation);
+        GameObject projectileClone = Instantiate(rangeProjectilePrefab, transform.position + projectileStartPositionOffset, transform.rotation);
         // Let projectile moving
         projectileClone.GetComponent<Rigidbody2D>().velocity = projectileVelocity;
         // Destroy Projectile after delay

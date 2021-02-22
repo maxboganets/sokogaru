@@ -7,7 +7,7 @@
             "actions": [
                 {
                     "name": "Movement",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "06d18df9-67da-4c1e-9f6e-2e768ecd9b78",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -38,6 +38,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardArrows",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dc55e125-173b-4b02-bd59-d7b2e7e240ae",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardWASD",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -76,6 +87,39 @@
                     "isPartOfComposite": true
                 },
                 {
+                    "name": "AD",
+                    "id": "c6c6e373-b677-492e-9b25-650f4bca325c",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardArrows",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "left",
+                    "id": "474c8ba3-9cfd-4ef0-813f-c1de56e13d0f",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardWASD",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "13d61d47-2f93-4cba-8740-0be79c85bd12",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardWASD",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "2D Vector",
                     "id": "bf98b0c7-aebf-48d9-b28e-b8120814e647",
                     "path": "2DVector",
@@ -93,6 +137,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardArrows",
+                    "action": "FireProjectile",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec25802d-52e1-42d2-b5b7-61743d156706",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardWASD",
                     "action": "FireProjectile",
                     "isComposite": false,
                     "isPartOfComposite": false

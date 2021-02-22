@@ -177,6 +177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364efee553d5f4823a8d2a8b2c5dc5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rangeProjectilePrefab: {fileID: 1498717324455551268, guid: 37dd6441f4e1749a792a8549ea3f0fd8, type: 3}
+  hasMeeleeAttack: 0
+  hasRangeAttack: 1
   animateFlip: 0
   playerRunForce: 10
   playerJumpForce: 280
@@ -247,7 +250,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6818903222599744955}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnFireProjectile
+        m_MethodName: onRangeAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
