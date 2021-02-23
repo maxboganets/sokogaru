@@ -25,6 +25,11 @@ public class Player
     {
         return this.playerIndex;
     }
+
+    public PlayerInput GetPlayerInput()
+    {
+        return this.player;
+    }
 }
 
 public class GameSystem : MonoBehaviour
@@ -34,7 +39,8 @@ public class GameSystem : MonoBehaviour
     private void Start()
     {
         var player1 = new Player(Resources.Load("LichKing") as GameObject, 1, "KeyboardWASD", Keyboard.current);
-        var player2 = new Player(Resources.Load("LichKing") as GameObject, 2, "KeyboardArrows", Keyboard.current);
+        var player2 = new Player(Resources.Load("ArcaneArcher") as GameObject, 2, "KeyboardArrows", Keyboard.current);
+        Physics2D.IgnoreCollision(player1.GetPlayerInput().GetComponent<Collider2D>(), player2.GetPlayerInput().GetComponent<Collider2D>());
     }
 
     void Awake()
