@@ -378,7 +378,7 @@ public class PlayerController : MonoBehaviour
         {
             // Decrease hp, stun, maybe die
             int attackPower = otherObj.gameObject.GetComponent<WeaponController>().GetAttackPower();
-            this.UpdateHealth(attackPower);
+            this.UpdateHealth(-attackPower);
             StartCoroutine(this.AnimateOnHit());
             this.SetStunState();
             this.DoKnockBack(otherObj);
