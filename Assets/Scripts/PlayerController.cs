@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
     private GameObject playerObject;
     private Rigidbody2D playerRigidBody2D;
     private Animator playerAnimator;
-    private CharacterController playerController;
     private enum PlayerFacing
     {
         right,
@@ -121,8 +120,6 @@ public class PlayerController : MonoBehaviour
         playerRigidBody2D.freezeRotation = true;
         // Set facing direction based on flipX value of the game object
         playerFacing = gameObject.GetComponent<SpriteRenderer>().flipX ? PlayerFacing.left : PlayerFacing.right;
-        // save <CharacterController> as private variable
-        playerController = playerObject.GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -131,8 +128,7 @@ public class PlayerController : MonoBehaviour
         // If Not Stunned
         if (!this.IsStunned())
         {
-            // Hook Actions
-            this.HookControlActions();
+            this.ExecuteControlActions();
         }
 
         this.StunState();
@@ -140,7 +136,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator.SetInteger("state", (int)this.GetPlayerState());
     }
 
-    private void HookControlActions()
+    private void ExecuteControlActions()
     {
         ControlAction cAction = this.GetActionTriggered();
         if (cAction == ControlAction.jump)
