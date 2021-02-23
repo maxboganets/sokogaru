@@ -71,6 +71,8 @@ public class PlayerController : MonoBehaviour
     private bool canFireProjectile = true;
     private const float stunTimeAfterHit = 0.2F;
     private float ramainedStunTime = 0;
+    private const float invulnerabilityTime = 2F;
+    private float ramainedInvulnerableTime = 0;
 
     // Callback function for OnMove
     public void OnMove(InputAction.CallbackContext context)
@@ -217,6 +219,24 @@ public class PlayerController : MonoBehaviour
         ramainedStunTime = stunTime;
     }
 
+    private void InvulnerabilityState()
+    {
+        if (ramainedInvulnerableTime > 0)
+        {
+            ramainedInvulnerableTime -= Time.deltaTime;
+        }
+    }
+
+    private bool IsInvulnerable()
+    {
+        return ramainedInvulnerableTime > 0;
+    }
+
+    private void SetInvulnerableState(float invulnerableTime = invulnerabilityTime)
+    {
+        ramainedInvulnerableTime = invulnerableTime;
+    }
+
     private ControlAction GetActionTriggered()
     {
         return actionTriggered;
@@ -329,7 +349,7 @@ public class PlayerController : MonoBehaviour
     private bool GotHit(Collision2D collisionObject)
     {
         // It's not a weapon and can't hit hard
-        if (!collisionObject.gameObject.GetComponent<WeaponController>())
+        if (this.IsInvulnerable() || !collisionObject.gameObject.GetComponent<WeaponController>())
         {
             return false;
         }
