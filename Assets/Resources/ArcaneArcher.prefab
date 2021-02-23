@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rangeProjectilePrefab: {fileID: 1498717324455551268, guid: 37dd6441f4e1749a792a8549ea3f0fd8, type: 3}
+  onHitColor: {r: 1, g: 0.55423945, b: 0, a: 1}
   hasMeeleeAttack: 0
   hasRangeAttack: 1
   animateFlip: 0

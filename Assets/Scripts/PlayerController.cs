@@ -17,6 +17,7 @@ public static class WaitFor
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameObject rangeProjectilePrefab;
+    [SerializeField] Color onHitColor = Color.red;
     [SerializeField] bool hasMeeleeAttack = false;
     [SerializeField] bool hasRangeAttack = true;
     [SerializeField] bool animateFlip = false;
@@ -69,10 +70,11 @@ public class PlayerController : MonoBehaviour
     private int jumpInAirCurrent = 0;
     private PlayerFacing playerFacing;
     private bool canFireProjectile = true;
-    private const float stunTimeAfterHit = 0.2F;
+    private const float stunTimeAfterHit = 0.3F;
     private float ramainedStunTime = 0;
     private const float invulnerabilityTime = 2F;
     private float ramainedInvulnerableTime = 0;
+    private float onHitAnimationTime = 0.2F;
 
     // Callback function for OnMove
     public void OnMove(InputAction.CallbackContext context)
@@ -358,6 +360,14 @@ public class PlayerController : MonoBehaviour
             : false;
     }
 
+    private IEnumerator AnimateOnHit()
+    {
+        Color originalColor = playerObject.GetComponent<Renderer>().material.color;
+        playerObject.GetComponent<Renderer>().material.color = this.onHitColor;
+        yield return new WaitForSeconds(onHitAnimationTime);
+        playerObject.GetComponent<Renderer>().material.color = originalColor;
+    }
+
     void OnCollisionEnter2D(Collision2D otherObj)
     {
         if (this.GotHit(otherObj))
@@ -365,6 +375,7 @@ public class PlayerController : MonoBehaviour
             // Decrease hp, stun, maybe die
             int attackPower = otherObj.gameObject.GetComponent<WeaponController>().GetAttackPower();
             this.UpdateHealth(attackPower);
+            StartCoroutine(this.AnimateOnHit());
             this.SetStunState();
             this.DoKnockBack(otherObj);
             if (this.GetHealth() <= 0)
