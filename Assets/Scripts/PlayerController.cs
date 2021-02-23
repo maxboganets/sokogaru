@@ -18,20 +18,17 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameObject rangeProjectilePrefab;
     [SerializeField] Color onHitColor = Color.red;
-    [SerializeField] bool hasMeeleeAttack = false;
-    [SerializeField] bool hasRangeAttack = true;
-    [SerializeField] bool animateFlip = false;
-    [SerializeField] float playerRunForce = 10;
-    [SerializeField] float playerJumpForce = 280;
-    [SerializeField] int projectileVelocitySpeed = 15;
+    [SerializeField] int hp = 10;
+    [SerializeField] int meleePower = 0;
+    [SerializeField] int rangePower = 0;
+    [SerializeField] float moveSpeed = 3.5F;
+    [SerializeField] float jumpSpeed = 6.5F;
+    [SerializeField] int projectileSpeed = 15;
     [SerializeField] int jumpsInAirAllowed = 2;
-    [SerializeField] int FlipAnimationStepInFrames = 2;
     [SerializeField] float projectileStartOffsetX = 0.3F;
     [SerializeField] float projectileLifeTime = .5F;
     [SerializeField] float delayBetweenProjectiles = .5F;
-    [SerializeField] int hp = 10;
-    [SerializeField] int meleePower = 1;
-    [SerializeField] int rangePower = 2;
+    [SerializeField] bool animateFlip = false;
 
     private GameObject playerObject;
     private Rigidbody2D playerRigidBody2D;
@@ -63,6 +60,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput = Vector2.zero;
     private ControlAction actionTriggered = ControlAction.none;
     private PlayerState playerState = PlayerState.idle;
+    private int FlipAnimationStepInFrames = 2;
     private string groundTag = "Floor";
     private string interactiveObjectTag = "InteractiveObject";
     private string projectileTag = "Projectile";
@@ -95,7 +93,7 @@ public class PlayerController : MonoBehaviour
     // Callback function for onRangeAttack
     public void onRangeAttack(InputAction.CallbackContext context)
     {
-        if (hasRangeAttack && context.ReadValueAsButton())
+        if (this.HasRangeAttack() && context.ReadValueAsButton())
         {
             this.SetActionTriggered(ControlAction.rangeAttack);
 
@@ -105,7 +103,7 @@ public class PlayerController : MonoBehaviour
     // Callback function for onUltimateAbility
     public void onUltimateAbility(InputAction.CallbackContext context)
     {
-        if (hasRangeAttack && context.ReadValueAsButton())
+        if (this.HasRangeAttack() && context.ReadValueAsButton())
         {
             this.SetActionTriggered(ControlAction.ultimateAbility);
 
@@ -264,6 +262,16 @@ public class PlayerController : MonoBehaviour
         return this.hp;
     }
 
+    private bool HasMeleeAttack()
+    {
+        return this.meleePower > 0;
+    }
+
+    private bool HasRangeAttack()
+    {
+        return this.rangePower > 0;
+    }
+
     private void UpdateHealth(int healthDelta)
     {
         this.hp += healthDelta;
@@ -283,7 +291,7 @@ public class PlayerController : MonoBehaviour
     {
         setCanFireProjectileState(false);
         Vector3 projectileStartPositionOffset = new Vector3(projectileStartOffsetX * (playerFacing == PlayerFacing.left ? -1 : 1), 0, 0);
-        Vector3 projectileVelocity = new Vector3(projectileVelocitySpeed * (playerFacing == PlayerFacing.left ? -1 : 1), 0, 0);
+        Vector3 projectileVelocity = new Vector3(projectileSpeed * (playerFacing == PlayerFacing.left ? -1 : 1), 0, 0);
         GameObject projectileClone = Instantiate(rangeProjectilePrefab, transform.position + projectileStartPositionOffset, transform.rotation);
         // Ignore collisions between hero & projectile
         Physics2D.IgnoreCollision(projectileClone.GetComponent<Collider2D>(), this.playerObject.GetComponent<Collider2D>());
@@ -410,14 +418,12 @@ public class PlayerController : MonoBehaviour
 
     void doWalk()
     {
-        float forceWithDirection = playerFacing == PlayerFacing.right ? playerRunForce : -playerRunForce;
-        Vector2 forceVector = new Vector2(forceWithDirection, 0);
-        playerRigidBody2D.AddForce(forceVector);
+        float moveVelocity = playerFacing == PlayerFacing.right ? this.moveSpeed : -this.moveSpeed;
+        playerRigidBody2D.velocity = new Vector2(moveVelocity, playerRigidBody2D.velocity.y);
     }
 
     void doJump()
     {
-        Vector2 forceVector = new Vector2(0, playerJumpForce);
-        playerRigidBody2D.AddForce(forceVector);
+        playerRigidBody2D.velocity = new Vector2(playerRigidBody2D.velocity.x, this.jumpSpeed);
     }
 }

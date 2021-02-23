@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 4740927388118887717}
   - component: {fileID: 3604782563578403166}
   - component: {fileID: 8883722555928612374}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ArcaneArcher
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -214,20 +214,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rangeProjectilePrefab: {fileID: 1498717324455551268, guid: 37dd6441f4e1749a792a8549ea3f0fd8, type: 3}
   onHitColor: {r: 1, g: 0.55423945, b: 0, a: 1}
-  hasMeeleeAttack: 0
-  hasRangeAttack: 1
-  animateFlip: 0
-  playerRunForce: 10
-  playerJumpForce: 280
-  projectileVelocitySpeed: 15
-  jumpsInAirAllowed: 2
-  FlipAnimationStepInFrames: 2
-  projectileStartOffsetX: 0.3
-  projectileLifeTime: 0.5
-  delayBetweenProjectiles: 0.5
   hp: 5
   meleePower: 1
   rangePower: 2
+  moveSpeed: 3.5
+  jumpSpeed: 6.5
+  projectileSpeed: 15
+  jumpsInAirAllowed: 2
+  projectileStartOffsetX: 0.3
+  projectileLifeTime: 0.5
+  delayBetweenProjectiles: 0.5
+  animateFlip: 0
 --- !u!50 &3604782563578403166
 Rigidbody2D:
   serializedVersion: 4
@@ -240,10 +237,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1.7
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1.7
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
