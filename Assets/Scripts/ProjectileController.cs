@@ -6,8 +6,6 @@ public class ProjectileController : MonoBehaviour
 {
     [SerializeField] float ExplosionDelay = 0.15F;
 
-    public int attackPower = 1;
-
     void OnCollisionEnter2D(Collision2D otherObj)
     {
         StartCoroutine(this.doExplode());
@@ -28,15 +26,5 @@ public class ProjectileController : MonoBehaviour
     void destroyProjectile(float delay)
     {
         Destroy(gameObject, delay);
-    }
-
-    public void SetAttackPower(int attackPower)
-    {
-        this.attackPower = attackPower;
-    }
-
-    public int GetAttackPower()
-    {
-        return this.attackPower;
     }
 }

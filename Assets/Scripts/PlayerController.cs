@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour
         // Let projectile moving
         projectileClone.GetComponent<Rigidbody2D>().velocity = projectileVelocity;
         // Set Projectile's Attack Power
-        projectileClone.GetComponent<ProjectileController>().SetAttackPower(this.rangePower);
+        projectileClone.GetComponent<WeaponController>().SetAttackPower(this.rangePower);
         // Destroy Projectile after delay
         Destroy(projectileClone, projectileLifeTime);
         // Wait some time and allow fire again
@@ -285,9 +285,14 @@ public class PlayerController : MonoBehaviour
             : false;
     }
 
-    private bool GotHit(Collision2D gameObject)
+    private bool GotHit(Collision2D collisionObject)
     {
-        return (gameObject.gameObject.tag == projectileTag)
+        // It's not a weapon and can't hit hard
+        if (!collisionObject.gameObject.GetComponent<WeaponController>())
+        {
+            return false;
+        }
+        return (collisionObject.gameObject.tag == projectileTag)
             ? true
             : false;
     }
@@ -297,7 +302,7 @@ public class PlayerController : MonoBehaviour
         if (this.GotHit(otherObj))
         {
             // Decrease hp, stun, maybe die
-            int attackPower = otherObj.gameObject.GetComponent<ProjectileController>().GetAttackPower();
+            int attackPower = otherObj.gameObject.GetComponent<WeaponController>().GetAttackPower();
             this.hp -= attackPower;
             if (this.hp <= 0)
             {
