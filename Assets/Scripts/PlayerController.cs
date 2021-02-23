@@ -69,6 +69,8 @@ public class PlayerController : MonoBehaviour
     private int jumpInAirCurrent = 0;
     private PlayerFacing playerFacing;
     private bool canFireProjectile = true;
+    private const float stunTimeAfterHit = 0.2F;
+    private float ramainedStunTime = 0;
 
     // Callback function for OnMove
     public void OnMove(InputAction.CallbackContext context)
@@ -124,6 +126,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // If Not Stunned
+        if (!this.IsStunned())
+        {
+            // Hook Actions
+            this.HookControlActions();
+        }
+
+        this.StunState();
+        this.VelocityState();
+        playerAnimator.SetInteger("state", (int)this.GetPlayerState());
+    }
+
+    private void HookControlActions()
+    {
         ControlAction cAction = this.GetActionTriggered();
         if (cAction == ControlAction.jump)
         {
@@ -135,7 +151,8 @@ public class PlayerController : MonoBehaviour
             }
             this.SetActionTriggered(ControlAction.none);
         }
-        if (movementInput.x != 0) {
+        if (movementInput.x != 0)
+        {
             if (this.GetPlayerState() != PlayerState.jumping && isGrounded)
             {
                 this.SetPlayerState(PlayerState.running);
@@ -151,12 +168,9 @@ public class PlayerController : MonoBehaviour
             }
             this.SetActionTriggered(ControlAction.none);
         }
-
-        velocityState();
-        playerAnimator.SetInteger("state", (int)this.GetPlayerState());
     }
 
-    private void velocityState()
+    private void VelocityState()
     {
         PlayerState state = this.GetPlayerState();
         if (state == PlayerState.idle)
@@ -185,6 +199,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void StunState()
+    {
+        if (ramainedStunTime > 0)
+        {
+            ramainedStunTime -= Time.deltaTime;
+        }
+    }
+
+    private bool IsStunned()
+    {
+        return ramainedStunTime > 0;
+    }
+
+    private void SetStunState(float stunTime = stunTimeAfterHit)
+    {
+        ramainedStunTime = stunTime;
+    }
+
     private ControlAction GetActionTriggered()
     {
         return actionTriggered;
@@ -205,6 +237,15 @@ public class PlayerController : MonoBehaviour
         playerState = newState;
     }
 
+    private int GetHealth()
+    {
+        return this.hp;
+    }
+
+    private void UpdateHealth(int healthDelta)
+    {
+        this.hp += healthDelta;
+    }
 
     private bool CanFireProjectile()
     {
@@ -303,8 +344,10 @@ public class PlayerController : MonoBehaviour
         {
             // Decrease hp, stun, maybe die
             int attackPower = otherObj.gameObject.GetComponent<WeaponController>().GetAttackPower();
-            this.hp -= attackPower;
-            if (this.hp <= 0)
+            this.UpdateHealth(attackPower);
+            this.SetStunState();
+            this.DoKnockBack(otherObj);
+            if (this.GetHealth() <= 0)
             {
                 Destroy(this.playerObject);
             }
@@ -318,6 +361,12 @@ public class PlayerController : MonoBehaviour
         {
             otherObj.rigidbody.AddExplosionForce(100, this.transform.position, 5);
         }
+    }
+
+    void DoKnockBack(Collision2D otherObj)
+    {
+        Vector2 moveDirectionPush = playerRigidBody2D.transform.position - otherObj.gameObject.GetComponent<Rigidbody2D>().transform.position;
+        playerRigidBody2D.AddForce(moveDirectionPush.normalized * 100);
     }
 
     void OnCollisionExit2D(Collision2D otherObj)

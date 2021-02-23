@@ -224,6 +224,9 @@ MonoBehaviour:
   projectileStartOffsetX: 0.3
   projectileLifeTime: 0.5
   delayBetweenProjectiles: 0.5
+  hp: 5
+  meleePower: 1
+  rangePower: 2
 --- !u!50 &3604782563578403166
 Rigidbody2D:
   serializedVersion: 4
