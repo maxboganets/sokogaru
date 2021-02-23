@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
         running,
         jumping,
         falling,
+        die,
         attackingMeelee,
         attackingFromRange,
         ultimateAbility
@@ -72,6 +73,7 @@ public class PlayerController : MonoBehaviour
     private const float invulnerabilityTime = 2F;
     private float ramainedInvulnerableTime = 0;
     private float onHitAnimationTime = 0.2F;
+    private float dieAnimationTime = 1F;
 
     // Callback function for OnMove
     public void OnMove(InputAction.CallbackContext context)
@@ -130,7 +132,8 @@ public class PlayerController : MonoBehaviour
         {
             this.ExecuteControlActions();
         }
-
+        if ((int)this.GetPlayerState() == 4)
+        print((int)this.GetPlayerState());
         this.StunState();
         this.VelocityState();
         playerAnimator.SetInteger("state", (int)this.GetPlayerState());
@@ -171,7 +174,7 @@ public class PlayerController : MonoBehaviour
     private void VelocityState()
     {
         PlayerState state = this.GetPlayerState();
-        if (state == PlayerState.idle)
+        if (state == PlayerState.idle || state == PlayerState.die)
         {
             return;
         }
@@ -384,7 +387,7 @@ public class PlayerController : MonoBehaviour
             this.DoKnockBack(otherObj);
             if (this.GetHealth() <= 0)
             {
-                Destroy(this.playerObject);
+                StartCoroutine(this.DoDie());
             }
         }
         if (this.CollideWithGround(otherObj))
@@ -421,5 +424,13 @@ public class PlayerController : MonoBehaviour
     void doJump()
     {
         playerRigidBody2D.velocity = new Vector2(playerRigidBody2D.velocity.x, this.jumpSpeed);
+    }
+
+    private IEnumerator DoDie()
+    {
+        this.SetStunState(dieAnimationTime);
+        this.SetPlayerState(PlayerState.die);
+        yield return new WaitForSeconds(dieAnimationTime);
+        Destroy(this.playerObject);
     }
 }
