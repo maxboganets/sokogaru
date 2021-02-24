@@ -132,8 +132,6 @@ public class PlayerController : MonoBehaviour
         {
             this.ExecuteControlActions();
         }
-        if ((int)this.GetPlayerState() == 4)
-        print((int)this.GetPlayerState());
         this.StunState();
         this.VelocityState();
         playerAnimator.SetInteger("state", (int)this.GetPlayerState());
@@ -292,6 +290,7 @@ public class PlayerController : MonoBehaviour
         Vector3 projectileStartPositionOffset = new Vector3(projectileStartOffsetX * (playerFacing == PlayerFacing.left ? -1 : 1), 0, 0);
         Vector3 projectileVelocity = new Vector3(projectileSpeed * (playerFacing == PlayerFacing.left ? -1 : 1), 0, 0);
         GameObject projectileClone = Instantiate(rangeProjectilePrefab, transform.position + projectileStartPositionOffset, transform.rotation);
+        projectileClone.GetComponent<SpriteRenderer>().flipX = (playerFacing == PlayerFacing.left);
         // Ignore collisions between hero & projectile
         Physics2D.IgnoreCollision(projectileClone.GetComponent<Collider2D>(), this.playerObject.GetComponent<Collider2D>());
         // Let projectile moving
