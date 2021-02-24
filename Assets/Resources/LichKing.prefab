@@ -178,21 +178,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rangeProjectilePrefab: {fileID: 1498717324455551268, guid: 37dd6441f4e1749a792a8549ea3f0fd8, type: 3}
-  onHitColor: {r: 1, g: 0.058691517, b: 0, a: 1}
-  hasMeeleeAttack: 0
-  hasRangeAttack: 1
-  animateFlip: 0
-  playerRunForce: 10
-  playerJumpForce: 280
-  projectileVelocitySpeed: 15
-  jumpsInAirAllowed: 2
-  FlipAnimationStepInFrames: 2
-  projectileStartOffsetX: 0.3
-  projectileLifeTime: 0.5
-  delayBetweenProjectiles: 0.5
+  onHitColor: {r: 1, g: 0.44515038, b: 0, a: 1}
   hp: 10
   meleePower: 1
   rangePower: 1
+  moveSpeed: 3.5
+  jumpSpeed: 6
+  projectileSpeed: 15
+  jumpsInAirAllowed: 2
+  projectileStartOffsetX: 0.3
+  projectileLifeTime: 0.5
+  delayBetweenProjectiles: 0.5
+  animateFlip: 0
 --- !u!114 &6818903222599744954
 MonoBehaviour:
   m_ObjectHideFlags: 0

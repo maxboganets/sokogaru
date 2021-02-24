@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] GameObject rangeProjectilePrefab;
     [SerializeField] Color onHitColor = Color.red;
-    [SerializeField] int hp = 10;
+    [SerializeField] int maxHealth = 10;
     [SerializeField] int meleePower = 0;
     [SerializeField] int rangePower = 0;
     [SerializeField] float moveSpeed = 3.5F;
@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
     private float ramainedInvulnerableTime = 0;
     private float onHitAnimationTime = 0.2F;
     private float dieAnimationTime = 1F;
+    private int currentHealth = 0;
 
     // Callback function for OnMove
     public void OnMove(InputAction.CallbackContext context)
@@ -122,6 +123,8 @@ public class PlayerController : MonoBehaviour
         playerRigidBody2D.freezeRotation = true;
         // Set facing direction based on flipX value of the game object
         playerFacing = gameObject.GetComponent<SpriteRenderer>().flipX ? PlayerFacing.left : PlayerFacing.right;
+        // Set initial health
+        this.UpdateHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -256,7 +259,7 @@ public class PlayerController : MonoBehaviour
 
     private int GetHealth()
     {
-        return this.hp;
+        return this.currentHealth;
     }
 
     private bool HasMeleeAttack()
@@ -271,7 +274,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateHealth(int healthDelta)
     {
-        this.hp += healthDelta;
+        this.currentHealth += healthDelta;
     }
 
     private bool CanFireProjectile()
@@ -378,7 +381,7 @@ public class PlayerController : MonoBehaviour
     {
         if (this.GotHit(otherObj))
         {
-            // Decrease hp, stun, maybe die
+            // Decrease current health, stun, maybe die
             int attackPower = otherObj.gameObject.GetComponent<WeaponController>().GetAttackPower();
             this.UpdateHealth(-attackPower);
             StartCoroutine(this.AnimateOnHit());
