@@ -16,6 +16,7 @@ public static class WaitFor
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] HealthBarController healthBar;
     [SerializeField] GameObject rangeProjectilePrefab;
     [SerializeField] Color onHitColor = Color.red;
     [SerializeField] int maxHealth = 10;
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour
     private float ramainedInvulnerableTime = 0;
     private float onHitAnimationTime = 0.2F;
     private float dieAnimationTime = 1F;
+    private Color originalTintColor;
     private int currentHealth = 0;
 
     // Callback function for OnMove
@@ -123,6 +125,8 @@ public class PlayerController : MonoBehaviour
         playerRigidBody2D.freezeRotation = true;
         // Set facing direction based on flipX value of the game object
         playerFacing = gameObject.GetComponent<SpriteRenderer>().flipX ? PlayerFacing.left : PlayerFacing.right;
+        // Save original tint color
+        this.originalTintColor = gameObject.GetComponent<SpriteRenderer>().color;
         // Set initial health
         this.UpdateHealth(maxHealth);
     }
@@ -371,10 +375,9 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator AnimateOnHit()
     {
-        Color originalColor = playerObject.GetComponent<Renderer>().material.color;
         playerObject.GetComponent<Renderer>().material.color = this.onHitColor;
         yield return new WaitForSeconds(onHitAnimationTime);
-        playerObject.GetComponent<Renderer>().material.color = originalColor;
+        playerObject.GetComponent<Renderer>().material.color = this.originalTintColor;
     }
 
     void OnCollisionEnter2D(Collision2D otherObj)
@@ -384,6 +387,7 @@ public class PlayerController : MonoBehaviour
             // Decrease current health, stun, maybe die
             int attackPower = otherObj.gameObject.GetComponent<WeaponController>().GetAttackPower();
             this.UpdateHealth(-attackPower);
+            //this.healthBar.SetHealth(this.GetHealth());
             StartCoroutine(this.AnimateOnHit());
             this.SetStunState();
             this.DoKnockBack(otherObj);
