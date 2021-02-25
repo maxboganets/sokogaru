@@ -16,7 +16,6 @@ public static class WaitFor
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] HealthBarController healthBar;
     [SerializeField] GameObject rangeProjectilePrefab;
     [SerializeField] Color onHitColor = Color.red;
     [SerializeField] int maxHealth = 10;
@@ -31,6 +30,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float delayBetweenProjectiles = .5F;
     [SerializeField] bool animateFlip = false;
 
+    private HealthBar healthBar;
     private GameObject playerObject;
     private Rigidbody2D playerRigidBody2D;
     private Animator playerAnimator;
@@ -112,6 +112,12 @@ public class PlayerController : MonoBehaviour
             this.SetActionTriggered(ControlAction.ultimateAbility);
 
         }
+    }
+
+    public void AssignHealthBar(HealthBar healthBar)
+    {
+        this.healthBar = healthBar;
+        this.healthBar.GetComponent<HealthBar>().Initiate(this.maxHealth);
     }
 
     // Start is called before the first frame update
@@ -387,7 +393,7 @@ public class PlayerController : MonoBehaviour
             // Decrease current health, stun, maybe die
             int attackPower = otherObj.gameObject.GetComponent<WeaponController>().GetAttackPower();
             this.UpdateHealth(-attackPower);
-            //this.healthBar.SetHealth(this.GetHealth());
+            this.healthBar.GetComponent<HealthBar>().SetHealth(this.GetHealth());
             StartCoroutine(this.AnimateOnHit());
             this.SetStunState();
             this.DoKnockBack(otherObj);

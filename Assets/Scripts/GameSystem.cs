@@ -40,6 +40,8 @@ public class GameSystem : MonoBehaviour
     {
         var player1 = new Player(Resources.Load("LichKing") as GameObject, 1, "KeyboardWASD", Keyboard.current);
         var player2 = new Player(Resources.Load("ArcaneArcher") as GameObject, 2, "KeyboardArrows", Keyboard.current);
+        player1.GetPlayerInput().GetComponent<PlayerController>().AssignHealthBar(GameObject.Find("HealthBar1").GetComponent<HealthBar>());
+        player2.GetPlayerInput().GetComponent<PlayerController>().AssignHealthBar(GameObject.Find("HealthBar2").GetComponent<HealthBar>());
         player2.GetPlayerInput().gameObject.GetComponent<SpriteRenderer>().flipX = true;
         Physics2D.IgnoreCollision(player1.GetPlayerInput().GetComponent<Collider2D>(), player2.GetPlayerInput().GetComponent<Collider2D>());
     }
