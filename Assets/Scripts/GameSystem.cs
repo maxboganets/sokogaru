@@ -5,6 +5,7 @@ public class Player
 {
     private PlayerInput player;
     private int playerIndex;
+    private GameObject healthBar;
 
     public Player(GameObject playerPrefab, int playerIndex, string controlScheme, InputDevice controlDevice)
     {
@@ -19,6 +20,22 @@ public class Player
         );
 
         player.GetComponent<Rigidbody2D>().transform.position = GameObject.Find("Player"+ playerIndex +"Spawn").transform.position;
+    }
+
+    public void AssignHealthBar(GameObject healthBarPrefab)
+    {
+        this.healthBar = GameObject.Instantiate(
+            healthBarPrefab,
+            Vector2.zero,
+            Quaternion.identity,
+            GameObject.Find("GUI").transform
+        );
+        this.player.GetComponent<PlayerController>().AssignHealthBar(this.healthBar.GetComponent<HealthBar>());
+    }
+
+    public GameObject GetHealthBar()
+    {
+        return this.healthBar;
     }
 
     public int GetIndex()
@@ -36,44 +53,56 @@ public class GameSystem : MonoBehaviour
 {
     public static GameSystem Instance { get; private set; }
 
+    private Resolution screenResolution;
     private int healthBarOffsetX = 40;
     private int healthBarOffsetY = 40;
 
+    private Player player1, player2;
+
     private void Start()
     {
+        // Save current screen resolution
+        this.screenResolution = Screen.currentResolution;
+        // Load Prefabs from resources
+        var player1Prefab = Resources.Load("LichKing") as GameObject;
+        var player2Prefab = Resources.Load("ArcaneArcher") as GameObject;
         // Create Players
-        var player1 = new Player(Resources.Load("LichKing") as GameObject, 1, "KeyboardWASD", Keyboard.current);
-        var player2 = new Player(Resources.Load("ArcaneArcher") as GameObject, 2, "KeyboardArrows", Keyboard.current);
-        // Get GUI canvas rect
-        RectTransform canvasTransform = GameObject.Find("GUI").GetComponent<RectTransform>();
+        this.player1 = new Player(player1Prefab, 1, "KeyboardWASD", Keyboard.current);
+        this.player2 = new Player(player2Prefab, 2, "KeyboardArrows", Keyboard.current);
         // Create Health Bars and attach them to GUI
         var healthBarPrefab = Resources.Load("HealthBar") as GameObject;
-        var healthBarRealWidth = healthBarPrefab.GetComponent<RectTransform>().sizeDelta.x
-            * healthBarPrefab.GetComponent<RectTransform>().localScale.x;
-        var healthBar1 = Instantiate(
-            healthBarPrefab,
-            new Vector2(
+        this.player1.AssignHealthBar(healthBarPrefab);
+        this.player2.AssignHealthBar(healthBarPrefab);
+        // Flip Players if needed
+        this.player2.GetPlayerInput().gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        // Ignore collisions between players
+        Physics2D.IgnoreCollision(this.player1.GetPlayerInput().GetComponent<Collider2D>(), this.player2.GetPlayerInput().GetComponent<Collider2D>());
+        // Update Health Bars positions
+        this.UpdateGUIPosition();
+    }
+
+    private void Update()
+    {
+        if (this.screenResolution.width != Screen.currentResolution.width)
+        {
+            this.UpdateGUIPosition();
+        }
+    }
+
+    private void UpdateGUIPosition()
+    {
+        RectTransform canvasTransform = GameObject.Find("GUI").GetComponent<RectTransform>();
+        var healthBarRealWidth = this.player1.GetHealthBar().GetComponent<RectTransform>().sizeDelta.x
+            * this.player1.GetHealthBar().GetComponent<RectTransform>().localScale.x;
+
+        player1.GetHealthBar().GetComponent<Transform>().position = new Vector2(
                 healthBarOffsetX + (int)(healthBarRealWidth / 2),
                 canvasTransform.rect.height - healthBarOffsetY
-            ),
-            Quaternion.identity,
-            GameObject.Find("GUI").transform
-        );
-        var healthBar2 = Instantiate(
-            healthBarPrefab,
-            new Vector2(
+            );
+        player2.GetHealthBar().GetComponent<Transform>().position = new Vector2(
                 canvasTransform.rect.width - (int)(healthBarRealWidth / 2) - healthBarOffsetX,
                 canvasTransform.rect.height - healthBarOffsetY
-            ),
-            Quaternion.identity,
-            GameObject.Find("GUI").transform
-        );
-        // Assign Health Bars to the players
-        player1.GetPlayerInput().GetComponent<PlayerController>().AssignHealthBar(healthBar1.GetComponent<HealthBar>());
-        player2.GetPlayerInput().GetComponent<PlayerController>().AssignHealthBar(healthBar2.GetComponent<HealthBar>());
-        // Flip Players if needed
-        player2.GetPlayerInput().gameObject.GetComponent<SpriteRenderer>().flipX = true;
-        Physics2D.IgnoreCollision(player1.GetPlayerInput().GetComponent<Collider2D>(), player2.GetPlayerInput().GetComponent<Collider2D>());
+            );
     }
 
     void Awake()
@@ -85,11 +114,6 @@ public class GameSystem : MonoBehaviour
         }
 
         Instance = this;
-    }
-
-    void Update()
-    {
-        // global game update logic goes here
     }
 
     void OnGui()
