@@ -382,7 +382,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator AnimateOnHit()
     {
         playerObject.GetComponent<Renderer>().material.color = this.onHitColor;
-        yield return new WaitForSeconds(onHitAnimationTime);
+        yield return new WaitForSeconds(this.onHitAnimationTime);
         playerObject.GetComponent<Renderer>().material.color = this.originalTintColor;
     }
 
@@ -406,10 +406,6 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
             jumpInAirCurrent = 0;
-        }
-        if (otherObj.collider.gameObject.tag == interactiveObjectTag)
-        {
-            otherObj.rigidbody.AddExplosionForce(100, this.transform.position, 5);
         }
     }
 
