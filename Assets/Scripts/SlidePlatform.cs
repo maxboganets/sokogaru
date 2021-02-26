@@ -5,21 +5,24 @@ using UnityEngine;
 public class SlidePlatform : MonoBehaviour
 {
     [SerializeField] SlideDirection slideDirection = SlideDirection.slideX;
+    [SerializeField] bool positiveDirectionAtStart = true;
     [SerializeField] float distance = 1;
     [SerializeField] float speed = 0.5f;
 
+    private string playerTag = "Player";
     private enum SlideDirection
     {
         slideX,
         slideY
     };
-    private bool positiveDirection = true;
 
+    private bool positiveDirection;
     private Vector2 startPosition;
 
     private void Start()
     {
         this.startPosition = gameObject.transform.position;
+        this.positiveDirection = this.positiveDirectionAtStart;
     }
 
     void Update()
@@ -29,7 +32,10 @@ public class SlidePlatform : MonoBehaviour
             // check the border is not reached
             float currentPosX = gameObject.transform.position.x;
             float startPosX = startPosition.x;
-            if (Mathf.Abs(startPosX - currentPosX) >= this.distance)
+            float currentDistance = this.positiveDirection
+                ? currentPosX - startPosX
+                : startPosX - currentPosX;
+            if (currentDistance >= this.distance)
             {
                 this.positiveDirection = !this.positiveDirection;
             }
@@ -40,12 +46,31 @@ public class SlidePlatform : MonoBehaviour
             // check the border is not reached
             float currentPosY = gameObject.transform.position.y;
             float startPosY = startPosition.y;
-            if (Mathf.Abs(startPosY - currentPosY) >= this.distance)
+            float currentDistance = this.positiveDirection
+                ? currentPosY - startPosY
+                : startPosY - currentPosY;
+            if (currentDistance >= this.distance)
             {
                 this.positiveDirection = !this.positiveDirection;
             }
             Vector2 vectorDirection = this.positiveDirection ? Vector2.up : Vector2.down;
             transform.Translate(vectorDirection * this.speed * Time.deltaTime);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == this.playerTag)
+        {
+            collision.collider.transform.SetParent(gameObject.transform);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == this.playerTag)
+        {
+            collision.collider.transform.SetParent(null);
         }
     }
 }

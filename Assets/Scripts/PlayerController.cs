@@ -422,16 +422,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OnCollisionStay2D(Collision2D otherObj)
-    {
-        if (otherObj.gameObject.tag == slidePlatformTag)
-        {
-            Vector2 playerPosition = playerObject.transform.position;
-            playerPosition.x = otherObj.gameObject.transform.position.x;
-            playerObject.transform.localPosition = playerPosition;
-        }
-    }
-
     void DoKnockBack(Collision2D otherObj)
     {
         Vector2 moveDirectionPush = playerRigidBody2D.transform.position - otherObj.gameObject.GetComponent<Rigidbody2D>().transform.position;
