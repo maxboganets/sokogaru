@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
     private int FlipAnimationStepInFrames = 2;
     private string groundTag = "Floor";
     private string interactiveObjectTag = "InteractiveObject";
+    private string slidePlatformTag = "SlidePlatform";
     private string projectileTag = "Projectile";
     private bool isGrounded = false;
     private int jumpInAirCurrent = 0;
@@ -362,7 +363,11 @@ public class PlayerController : MonoBehaviour
 
     private bool CollideWithGround(Collision2D gameObject)
     {
-        return (gameObject.gameObject.tag == groundTag || gameObject.gameObject.tag == interactiveObjectTag)
+        return (
+            gameObject.gameObject.tag == groundTag ||
+            gameObject.gameObject.tag == interactiveObjectTag ||
+            gameObject.gameObject.tag == slidePlatformTag
+        )
             ? true
             : false;
     }
@@ -409,18 +414,28 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void DoKnockBack(Collision2D otherObj)
-    {
-        Vector2 moveDirectionPush = playerRigidBody2D.transform.position - otherObj.gameObject.GetComponent<Rigidbody2D>().transform.position;
-        playerRigidBody2D.AddForce(moveDirectionPush.normalized * 100);
-    }
-
     void OnCollisionExit2D(Collision2D otherObj)
     {
         if (this.CollideWithGround(otherObj))
         {
             isGrounded = false;
         }
+    }
+
+    void OnCollisionStay2D(Collision2D otherObj)
+    {
+        if (otherObj.gameObject.tag == slidePlatformTag)
+        {
+            Vector2 playerPosition = playerObject.transform.position;
+            playerPosition.x = otherObj.gameObject.transform.position.x;
+            playerObject.transform.localPosition = playerPosition;
+        }
+    }
+
+    void DoKnockBack(Collision2D otherObj)
+    {
+        Vector2 moveDirectionPush = playerRigidBody2D.transform.position - otherObj.gameObject.GetComponent<Rigidbody2D>().transform.position;
+        playerRigidBody2D.AddForce(moveDirectionPush.normalized * 100);
     }
 
     void doWalk()

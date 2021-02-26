@@ -10,7 +10,7 @@ public class InteractiveObjectController : MonoBehaviour
     private string projectileTag = "Projectile";
     private float onHitAnimationTime = 0.2F;
     private float dieAnimationTime = 0.25F;
-    private int magnitude = 1250;
+    private int magnitude = 1000;
     private Color originalTintColor;
     private int currentHealth;
 
@@ -56,10 +56,6 @@ public class InteractiveObjectController : MonoBehaviour
             // Decrease current health, stun, maybe die
             int attackPower = otherObj.gameObject.GetComponent<WeaponController>().GetAttackPower();
             this.UpdateHealth(-attackPower);
-
-
-
-
             // push object in opposite direction from the hit
             var force = transform.position - otherObj.transform.position;
             force.Normalize();
