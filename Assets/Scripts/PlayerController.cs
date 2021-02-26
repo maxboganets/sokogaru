@@ -172,6 +172,12 @@ public class PlayerController : MonoBehaviour
             }
             UpdateFacing(movementInput.x > 0 ? PlayerFacing.right : PlayerFacing.left);
             this.doWalk();
+        } else
+        {
+            if (this.GetPlayerState() == PlayerState.running)
+            {
+                playerRigidBody2D.velocity = new Vector2(0, playerRigidBody2D.velocity.y);
+            }
         }
         if (cAction == ControlAction.rangeAttack)
         {
