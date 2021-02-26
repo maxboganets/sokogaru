@@ -7,6 +7,14 @@ TagManager:
   - Floor
   - InteractiveObject
   - Projectile
+  - ground
+  - Obstacle
+  - BombPickup
+  - Enemy
+  - ExplosionFX
+  - Bullet
+  - HealthBar
+  - SlidePlatform
   layers:
   - Default
   - TransparentFX
@@ -14,7 +22,7 @@ TagManager:
   - Background Objects
   - Water
   - UI
-  - 
+  - InteractiveObjects
   - 
   - Players
   - 
