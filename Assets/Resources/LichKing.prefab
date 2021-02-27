@@ -177,14 +177,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 364efee553d5f4823a8d2a8b2c5dc5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 0}
   rangeProjectilePrefab: {fileID: 1498717324455551268, guid: 37dd6441f4e1749a792a8549ea3f0fd8, type: 3}
   onHitColor: {r: 1, g: 0, b: 0.16159391, a: 1}
   maxHealth: 10
   meleePower: 1
   rangePower: 1
   moveSpeed: 4
-  jumpSpeed: 8
+  jumpSpeed: 7
   projectileSpeed: 15
   jumpsInAirAllowed: 2
   projectileStartOffsetX: 0.3

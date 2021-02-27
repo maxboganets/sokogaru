@@ -62,7 +62,7 @@ public class SlidePlatform : MonoBehaviour
     {
         if (collision.gameObject.tag == this.playerTag)
         {
-            collision.collider.transform.SetParent(gameObject.transform);
+           collision.collider.transform.SetParent(gameObject.transform);
         }
     }
 
