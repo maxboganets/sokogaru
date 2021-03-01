@@ -413,16 +413,8 @@ public class PlayerController : MonoBehaviour
         int hitPower = this.GetDamageByCollision(otherObj);
         if (hitPower > 0)
         {
-            // Decrease current health, stun, maybe die
-            this.UpdateHealth(-hitPower);
-            this.healthBar.GetComponent<HealthBar>().SetHealth(this.GetHealth());
-            StartCoroutine(this.AnimateOnHit());
-            this.SetStunState();
+            this.doHit(hitPower);
             this.DoKnockBack(otherObj);
-            if (this.GetHealth() <= 0)
-            {
-                StartCoroutine(this.DoDie());
-            }
         }
         if (this.CollideWithGround(otherObj))
         {
@@ -439,9 +431,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnBecameInvisible()
+    {
+        this.doHit(this.GetHealth());
+    }
+
+    void doHit(int hitPower = 0)
+    {
+        // Decrease current health, stun, maybe die
+        this.UpdateHealth(-hitPower);
+        this.healthBar.GetComponent<HealthBar>().SetHealth(this.GetHealth());
+        StartCoroutine(this.AnimateOnHit());
+        this.SetStunState();
+        if (this.GetHealth() <= 0)
+        {
+            StartCoroutine(this.DoDie());
+        }
+    }
+
     void DoKnockBack(Collision2D otherObj)
     {
-        Vector2 moveDirectionPush = playerRigidBody2D.transform.position - otherObj.gameObject.GetComponent<Rigidbody2D>().transform.position;
+        Vector2 moveDirectionPush = playerRigidBody2D.transform.position - gameObject.gameObject.GetComponent<Rigidbody2D>().transform.position;
         playerRigidBody2D.AddForce(moveDirectionPush.normalized * 100);
     }
 
