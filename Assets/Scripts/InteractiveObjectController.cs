@@ -5,6 +5,7 @@ using UnityEngine;
 public class InteractiveObjectController : MonoBehaviour
 {
     [SerializeField] int maxHealth = 3;
+    [SerializeField] int hitPower = 2;
     [SerializeField] Color onHitColor = new Color(0.7f, 0.7f, 0.7f, 1);
 
     private string projectileTag = "Projectile";
@@ -37,6 +38,11 @@ public class InteractiveObjectController : MonoBehaviour
         return (collisionObject.gameObject.tag == projectileTag)
             ? true
             : false;
+    }
+
+    public int GetHitPower()
+    {
+        return this.hitPower;
     }
 
     private int GetHealth()

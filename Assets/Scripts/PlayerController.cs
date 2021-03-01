@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
     private float ramainedInvulnerableTime = 0;
     private float onHitAnimationTime = 0.2F;
     private float dieAnimationTime = 1F;
+    private float minImpulseToGetHit = 40;
     private Color originalTintColor;
     private int currentHealth = 0;
 
@@ -378,16 +379,26 @@ public class PlayerController : MonoBehaviour
             : false;
     }
 
-    private bool GotHit(Collision2D collisionObject)
+    private int GetDamageByCollision(Collision2D collisionObject)
     {
-        // It's not a weapon and can't hit hard
-        if (this.IsInvulnerable() || !collisionObject.gameObject.GetComponent<WeaponController>())
-        {
-            return false;
+        if (this.IsInvulnerable()) {
+            return 0;
         }
-        return (collisionObject.gameObject.tag == projectileTag)
-            ? true
-            : false;
+
+        if (collisionObject.gameObject.GetComponent<InteractiveObjectController>())
+        {
+            var hitImpulse = ComputeTotalImpulse(collisionObject);
+            var hitCoefficient = (int) Mathf.Round(Mathf.Abs(hitImpulse.y / this.minImpulseToGetHit));
+            print(hitCoefficient);
+            return collisionObject.gameObject.GetComponent<InteractiveObjectController>().GetHitPower() * hitCoefficient;
+        }
+
+        if (collisionObject.gameObject.GetComponent<WeaponController>())
+        {
+            return collisionObject.gameObject.GetComponent<WeaponController>().GetAttackPower();
+        }
+
+        return 0;
     }
 
     private IEnumerator AnimateOnHit()
@@ -399,11 +410,11 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D otherObj)
     {
-        if (this.GotHit(otherObj))
+        int hitPower = this.GetDamageByCollision(otherObj);
+        if (hitPower > 0)
         {
             // Decrease current health, stun, maybe die
-            int attackPower = otherObj.gameObject.GetComponent<WeaponController>().GetAttackPower();
-            this.UpdateHealth(-attackPower);
+            this.UpdateHealth(-hitPower);
             this.healthBar.GetComponent<HealthBar>().SetHealth(this.GetHealth());
             StartCoroutine(this.AnimateOnHit());
             this.SetStunState();
@@ -451,5 +462,21 @@ public class PlayerController : MonoBehaviour
         this.SetPlayerState(PlayerState.die);
         yield return new WaitForSeconds(dieAnimationTime);
         Destroy(this.playerObject);
+    }
+
+    private Vector2 ComputeTotalImpulse(Collision2D collision)
+    {
+        Vector2 impulse = Vector2.zero;
+
+        int contactCount = collision.contactCount;
+        for (int i = 0; i < contactCount; i++)
+        {
+            var contact = collision.GetContact(0);
+            impulse += contact.normal * contact.normalImpulse;
+            impulse.x += contact.tangentImpulse * contact.normal.y;
+            impulse.y -= contact.tangentImpulse * contact.normal.x;
+        }
+
+        return impulse;
     }
 }
