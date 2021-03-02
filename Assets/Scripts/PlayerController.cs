@@ -387,6 +387,10 @@ public class PlayerController : MonoBehaviour
 
         if (collisionObject.gameObject.GetComponent<InteractiveObjectController>())
         {
+            if (Mathf.Abs(collisionObject.gameObject.GetComponent<Rigidbody2D>().velocity.y) <= Mathf.Abs(playerRigidBody2D.velocity.y))
+            {
+                return 0;
+            }
             var hitImpulse = ComputeTotalImpulse(collisionObject);
             var hitCoefficient = (int) Mathf.Round(Mathf.Abs(hitImpulse.y / this.minImpulseToGetHit));
             print(hitCoefficient);
