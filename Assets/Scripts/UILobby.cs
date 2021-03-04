@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Mirror;
+//using Mirror;
 
 namespace Sokogaru.Lobby
 {
-    public class UILobby : NetworkBehaviour
+    public class UILobby : MonoBehaviour
     {
         public static UILobby instance;
 
