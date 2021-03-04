@@ -3,25 +3,53 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class SokogaruNetworkManager : NetworkManager
+namespace Sokogaru.Networking
 {
-    public override void OnStartServer()
+    public class NetworkRoomPlayer : NetworkBehaviour
     {
-        Debug.Log("Server Started!");
+
     }
 
-    public override void OnStopServer()
+    public class NetworkGamePlayer : NetworkBehaviour
     {
-        Debug.Log("Server Stopped!");
+
     }
 
-    public override void OnClientConnect(NetworkConnection connection)
+    public class SokogaruNetworkManager : NetworkManager
     {
-        Debug.Log("Client Started!");
-    }
+        [SerializeField] private int minPlayers = 2;
+        [Scene] [SerializeField] private string menuScene = string.Empty;
 
-    public override void OnClientDisconnect(NetworkConnection connection)
-    {
-        Debug.Log("Client Stopped!");
+        [Header("Room")]
+        [SerializeField] private NetworkRoomPlayer networkRoomPlayer;
+
+        [Header("Game")]
+        [SerializeField] private NetworkGamePlayer networkGamePlayer;
+
+        public override void OnStartServer()
+        {
+            Debug.Log("Server Started!");
+        }
+        
+        public void StartCustomHost()
+        {
+            Debug.Log("!!! Start Host");
+            NetworkManager.singleton.StartHost();
+        }
+
+        public override void OnStopServer()
+        {
+            Debug.Log("Server Stopped!");
+        }
+
+        public override void OnClientConnect(NetworkConnection connection)
+        {
+            Debug.Log("Client Started!");
+        }
+
+        public override void OnClientDisconnect(NetworkConnection connection)
+        {
+            Debug.Log("Client Stopped!");
+        }
     }
 }
