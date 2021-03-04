@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8355586154803720907}
   - component: {fileID: -8344438750386761746}
   - component: {fileID: -1733160850953251361}
-  - component: {fileID: 1671339853168432133}
+  - component: {fileID: 5795300070878558890}
   m_Layer: 0
   m_Name: LobbyPlayer
   m_TagString: Untagged
@@ -64,7 +64,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   currentMatchDebug: 
---- !u!114 &1671339853168432133
+--- !u!114 &5795300070878558890
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,8 +73,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5285738901786534312}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af03cabd246714e869ffd717889dc129, type: 3}
+  m_Script: {fileID: 11500000, guid: 3359c05673b0c45b6b79bdebdcf3aafc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  matchID: 

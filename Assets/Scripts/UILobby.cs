@@ -26,7 +26,7 @@ namespace Sokogaru.Lobby
             joinButton.interactable = false;
             hostButton.interactable = false;
 
-            LobbyPlayer.localPlayer.HostGame();
+            Player.localPlayer.HostGame();
         }
 
         public void HostSuccess(bool success)
