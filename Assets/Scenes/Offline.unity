@@ -285,8 +285,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 59166914}
-  - component: {fileID: 59166916}
   - component: {fileID: 59166915}
+  - component: {fileID: 59166916}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -302,11 +302,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59166913}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -369.6125, y: -255.10945, z: 192.63011}
+  m_LocalPosition: {x: 0.46105957, y: -0.33421326, z: -0.95274353}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1945075777}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &59166915
 MonoBehaviour:
@@ -341,7 +341,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 59166913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cb70b314c2794ee99e127dbecf4f70f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8aab4c8111b7c411b9b92cf3dbc5bd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
@@ -363,10 +363,6 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
-  minPlayers: 2
-  menuScene: 
-  networkRoomPlayer: {fileID: 0}
-  networkGamePlayer: {fileID: 0}
 --- !u!1 &229184171
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,8 +526,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 59166916}
-        m_TargetAssemblyTypeName: Sokogaru.Networking.SokogaruNetworkManager, Assembly-CSharp
-        m_MethodName: StartCustomHost
+        m_TargetAssemblyTypeName: Mirror.NetworkManager, Mirror
+        m_MethodName: StartHost
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -789,7 +785,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1945075777}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1175192957
 MonoBehaviour:
@@ -1394,7 +1390,6 @@ Transform:
   m_LocalPosition: {x: 370.07355, y: 254.77524, z: -193.58286}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 59166914}
   - {fileID: 1175192956}
   m_Father: {fileID: 0}
   m_RootOrder: 0

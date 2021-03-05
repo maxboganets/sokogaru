@@ -24,6 +24,12 @@ namespace Sokogaru.Lobby
             networkMatchChecker = GetComponent<NetworkMatchChecker>();
         }
 
+        void Awake()
+        {
+            Debug.Log("Player Awaken");
+            DontDestroyOnLoad(gameObject);
+        }
+
         public void HostGame()
         {
             string matchID = MatchMaker.GetRandomMatchId();

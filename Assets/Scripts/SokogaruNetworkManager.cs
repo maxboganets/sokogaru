@@ -30,12 +30,6 @@ namespace Sokogaru.Networking
         {
             Debug.Log("Server Started!");
         }
-        
-        public void StartCustomHost()
-        {
-            Debug.Log("!!! Start Host");
-            NetworkManager.singleton.StartHost();
-        }
 
         public override void OnStopServer()
         {
