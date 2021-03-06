@@ -61,13 +61,13 @@ namespace Sokogaru.Lobby
             Player.localPlayer.JoinGame(joinMatchInput.text.ToUpper());
         }
 
-        public void JoinSuccess(bool success)
+        public void JoinSuccess(bool success, string matchID)
         {
             if (success)
             {
                 lobbyCanvas.enabled = true;
                 this.SpawnPlayerUIPrefab(Player.localPlayer);
-                matchIDText.text = Player.localPlayer.matchID;
+                matchIDText.text = matchID;
             }
             else
             {

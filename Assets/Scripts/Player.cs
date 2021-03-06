@@ -98,7 +98,7 @@ namespace Sokogaru.Lobby
         void TargetJoinGame(bool success, string _matchID)
         {
             Debug.Log($"MatchID: {matchID} == {_matchID}");
-            UILobby.instance.JoinSuccess(success);
+            UILobby.instance.JoinSuccess(success, _matchID);
         }
 
         /*
