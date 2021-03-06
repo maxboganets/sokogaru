@@ -127,9 +127,7 @@ namespace Sokogaru.Lobby
         {
             Debug.Log($"MatchID: {matchID} | Beginning");
             // Additively Load Game Scene
-            Debug.Log("BEFORE LOAD SCENE");
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
-            Debug.Log("AFTER LOAD SCENE");
         }
     }
 }

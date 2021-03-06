@@ -873,7 +873,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0
-  turnManagerPrefab: {fileID: 985218529048889941, guid: 981274449a5eb46729a139f567b80fa8, type: 3}
+  gameManagerPrefab: {fileID: 985218529048889941, guid: 981274449a5eb46729a139f567b80fa8, type: 3}
 --- !u!114 &814982936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1371,7 +1371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
+  m_IgnoreReversedGraphics: 0
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
@@ -1852,7 +1852,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026525462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 410.40564, y: 253.65135, z: 0.054059073}
+  m_LocalPosition: {x: 410.40564, y: 253.65135, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1422944853}

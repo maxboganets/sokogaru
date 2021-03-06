@@ -34,7 +34,7 @@ namespace Sokogaru.Lobby
         public SyncListMatch matches = new SyncListMatch();
         public SyncList<string> matchIDs = new SyncList<string>();
 
-        [SerializeField] GameObject turnManagerPrefab;
+        [SerializeField] GameObject gameManagerPrefab;
 
         public static int matchIDLength = 5;
 
@@ -85,9 +85,10 @@ namespace Sokogaru.Lobby
 
         public void BeginGame(string _matchID)
         {
-            GameObject newTurnManager = Instantiate(this.turnManagerPrefab);
-            newTurnManager.GetComponent<NetworkMatchChecker>().matchId = _matchID.ToGuid();
-            TurnManager turnManager = newTurnManager.GetComponent<TurnManager>();
+            GameObject newGameManager = Instantiate(this.gameManagerPrefab);
+            NetworkServer.Spawn(newGameManager);
+            newGameManager.GetComponent<NetworkMatchChecker>().matchId = _matchID.ToGuid();
+            GameManager gameManager = newGameManager.GetComponent<GameManager>();
 
             for (int i = 0; i < this.matches.Count; i++) {
                 if (this.matches[i].matchID == _matchID)
@@ -95,7 +96,7 @@ namespace Sokogaru.Lobby
                     foreach (var player in this.matches[i].players)
                     {
                         Player _player = player.GetComponent<Player>();
-                        turnManager.AddPlayer(_player);
+                        gameManager.AddPlayer(_player);
                         _player.StartGame();
 
                     }

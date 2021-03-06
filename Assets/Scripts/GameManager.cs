@@ -5,7 +5,7 @@ using Mirror;
 
 namespace Sokogaru.Lobby
 {
-    public class TurnManager : NetworkBehaviour
+    public class GameManager : NetworkBehaviour
     {
         List<Player> players = new List<Player>();
 

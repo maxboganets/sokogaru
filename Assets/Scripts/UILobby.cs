@@ -25,7 +25,6 @@ namespace Sokogaru.Lobby
         void Start()
         {
             instance = this;
-            DontDestroyOnLoad(instance);
         }
 
         public void Host()
