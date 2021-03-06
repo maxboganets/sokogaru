@@ -34,6 +34,8 @@ namespace Sokogaru.Lobby
         public SyncListMatch matches = new SyncListMatch();
         public SyncList<string> matchIDs = new SyncList<string>();
 
+        [SerializeField] GameObject turnManagerPrefab;
+
         public static int matchIDLength = 5;
 
         void Start()
@@ -41,18 +43,64 @@ namespace Sokogaru.Lobby
             instance = this;
         }
 
-        public bool HostGame(string _matchID, GameObject _player)
+        public bool HostGame(string _matchID, GameObject _player, out int playerIndex)
         {
+            playerIndex = -1;
             if (!matchIDs.Contains(_matchID))
             {
                 this.matchIDs.Add(_matchID);
                 this.matches.Add(new Match(_matchID, _player));
                 Debug.Log($"Match generated");
+                playerIndex = 1;
                 return true;
             } else
             {
                 Debug.Log($"Match ID already exists");
                 return false;
+            }
+        }
+
+        public bool JoinGame(string _matchID, GameObject _player, out int playerIndex)
+        {
+            playerIndex = -1;
+            if (matchIDs.Contains(_matchID))
+            {
+                for (int i = 0; i < matches.Count; i++) {
+                    if (matches[i].matchID == _matchID)
+                    {
+                        matches[i].players.Add(_player);
+                        playerIndex = matches[i].players.Count;
+                        break;
+                    }
+                }
+                Debug.Log($"Match joined");
+                return true;
+            }
+            else
+            {
+                Debug.Log($"Match ID does not exist");
+                return false;
+            }
+        }
+
+        public void BeginGame(string _matchID)
+        {
+            GameObject newTurnManager = Instantiate(this.turnManagerPrefab);
+            newTurnManager.GetComponent<NetworkMatchChecker>().matchId = _matchID.ToGuid();
+            TurnManager turnManager = newTurnManager.GetComponent<TurnManager>();
+
+            for (int i = 0; i < this.matches.Count; i++) {
+                if (this.matches[i].matchID == _matchID)
+                {
+                    foreach (var player in this.matches[i].players)
+                    {
+                        Player _player = player.GetComponent<Player>();
+                        turnManager.AddPlayer(_player);
+                        _player.StartGame();
+
+                    }
+                    break;
+                }
             }
         }
 
