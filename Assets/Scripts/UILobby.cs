@@ -94,6 +94,7 @@ namespace Sokogaru.Lobby
         {
             GameObject newUIPlayer = Instantiate(UIPlayerPrefab, UIPlayersContainer);
             newUIPlayer.GetComponent<UIPlayer>().SetPlayer(player);
+            newUIPlayer.transform.SetSiblingIndex(player.playerIndex - 1);
         }
 
         public void BeginGame()
