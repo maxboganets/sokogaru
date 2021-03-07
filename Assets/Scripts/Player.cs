@@ -52,18 +52,19 @@ namespace Sokogaru.Lobby
             {
                 Debug.Log($"<color = green>Game Hosted Successfully</color>");
                 networkMatchChecker.matchId = _matchID.ToGuid();
-                this.TargetHostGame(true, _matchID);
+                this.TargetHostGame(true, _matchID, playerIndex);
             }
             else
             {
                 Debug.Log($"<color = red>Game Hosted Failed</color>");
-                this.TargetHostGame(false, _matchID);
+                this.TargetHostGame(false, _matchID, playerIndex);
             }
         }
 
         [TargetRpc]
-        void TargetHostGame(bool success, string _matchID)
+        void TargetHostGame(bool success, string _matchID, int _playerIndex)
         {
+            this.playerIndex = _playerIndex;
             Debug.Log($"MatchID: {matchID} == {_matchID}");
             UILobby.instance.HostSuccess(success);
         }
@@ -85,18 +86,19 @@ namespace Sokogaru.Lobby
             {
                 Debug.Log($"<color = green>Game Joined Successfully</color>");
                 networkMatchChecker.matchId = _matchID.ToGuid();
-                this.TargetJoinGame(true, _matchID);
+                this.TargetJoinGame(true, _matchID, playerIndex);
             }
             else
             {
                 Debug.Log($"<color = red>Game Joined Failed</color>");
-                this.TargetJoinGame(false, _matchID);
+                this.TargetJoinGame(false, _matchID, playerIndex);
             }
         }
 
         [TargetRpc]
-        void TargetJoinGame(bool success, string _matchID)
+        void TargetJoinGame(bool success, string _matchID, int _playerIndex)
         {
+            this.playerIndex = _playerIndex;
             Debug.Log($"MatchID: {matchID} == {_matchID}");
             UILobby.instance.JoinSuccess(success, _matchID);
         }
