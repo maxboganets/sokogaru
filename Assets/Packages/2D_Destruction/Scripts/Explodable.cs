@@ -2,7 +2,9 @@
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Explodable : MonoBehaviour
@@ -150,12 +152,16 @@ public class Explodable : MonoBehaviour
                     }
 
                     var mesh = fragments[i].GetComponent<MeshFilter>().sharedMesh;
+                    #if UNITY_EDITOR
                     AssetDatabase.CreateAsset(mesh, "Assets/Mesh/" + transform.name + "_" + i + ".asset");
+                    #endif
                 }
             }
         }
 
+        #if UNITY_EDITOR
         AssetDatabase.SaveAssets();
+        #endif
 
         foreach (ExplodableAddon addon in GetComponents<ExplodableAddon>())
         {
