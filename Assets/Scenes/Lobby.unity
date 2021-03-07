@@ -1352,6 +1352,7 @@ GameObject:
   - component: {fileID: 1422944852}
   - component: {fileID: 1422944851}
   - component: {fileID: 1422944850}
+  - component: {fileID: 1422944854}
   m_Layer: 5
   m_Name: LobbyUi
   m_TagString: Untagged
@@ -1441,6 +1442,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1422944854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422944849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bc96beec4d61432aaa1db0d5f33fc40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneUICanvas: {fileID: 1422944852}
+  joinMatchInput: {fileID: 1208672026}
+  joinButton: {fileID: 471272959}
+  hostButton: {fileID: 1962957663}
+  lobbyCanvas: {fileID: 102015685}
+  UIPlayersContainer: {fileID: 359628824}
+  UIPlayerPrefab: {fileID: 4407919528123184890, guid: 6addf6b325969436d9adc9640f4b734a, type: 3}
+  matchIDText: {fileID: 446872400}
+  beginGameButton: {fileID: 853662808}
 --- !u!1 &1490492202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,16 +1853,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2026525462}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5bc96beec4d61432aaa1db0d5f33fc40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneUICanvas: {fileID: 0}
   joinMatchInput: {fileID: 1208672026}
   joinButton: {fileID: 471272959}
   hostButton: {fileID: 1962957663}
   lobbyCanvas: {fileID: 102015685}
-  UIPlayerParent: {fileID: 359628824}
+  UIPlayersContainer: {fileID: 0}
   UIPlayerPrefab: {fileID: 4407919528123184890, guid: 6addf6b325969436d9adc9640f4b734a, type: 3}
   matchIDText: {fileID: 446872400}
   beginGameButton: {fileID: 853662808}

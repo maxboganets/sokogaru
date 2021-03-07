@@ -128,6 +128,8 @@ namespace Sokogaru.Lobby
             Debug.Log($"MatchID: {matchID} | Beginning");
             // Additively Load Game Scene
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
+            // Hide Lobby Canvas
+            UILobby.instance.DisableSceneUICanvas();
         }
     }
 }

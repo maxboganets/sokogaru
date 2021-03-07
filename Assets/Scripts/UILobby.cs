@@ -10,6 +10,9 @@ namespace Sokogaru.Lobby
     {
         public static UILobby instance;
 
+        [Header("Lobby Container")]
+        [SerializeField] Canvas sceneUICanvas;
+
         [Header("Host Join")]
         [SerializeField] InputField joinMatchInput;
         [SerializeField] Button joinButton;
@@ -17,10 +20,20 @@ namespace Sokogaru.Lobby
         [SerializeField] Canvas lobbyCanvas;
 
         [Header("Lobby")]
-        [SerializeField] Transform UIPlayerParent;
+        [SerializeField] Transform UIPlayersContainer;
         [SerializeField] GameObject UIPlayerPrefab;
         [SerializeField] Text matchIDText;
         [SerializeField] GameObject beginGameButton;
+
+        public void EnableSceneUICanvas()
+        {
+            this.sceneUICanvas.enabled = true;
+        }
+
+        public void DisableSceneUICanvas()
+        {
+            this.sceneUICanvas.enabled = false;
+        }
 
         void Start()
         {
@@ -79,7 +92,7 @@ namespace Sokogaru.Lobby
 
         public void SpawnPlayerUIPrefab(Player player)
         {
-            GameObject newUIPlayer = Instantiate(UIPlayerPrefab, UIPlayerParent);
+            GameObject newUIPlayer = Instantiate(UIPlayerPrefab, UIPlayersContainer);
             newUIPlayer.GetComponent<UIPlayer>().SetPlayer(player);
         }
 
