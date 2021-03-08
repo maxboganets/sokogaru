@@ -2,16 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using Mirror;
+using Mirror;
 
 namespace Sokogaru.Lobby
 {
-    public class UILobby : MonoBehaviour
+    [System.Serializable]
+    public class SyncListPlayersPrefabs : SyncList<GameObject> { }
+
+    public class UILobby : NetworkBehaviour
     {
         public static UILobby instance;
 
         [Header("Lobby Container")]
         [SerializeField] Canvas sceneUICanvas;
+
+        [Header("Character Select")]
+        [SerializeField] Canvas characterSelectCanvas;
+        public GameObject[] charactersPrefabs;
 
         [Header("Host Join")]
         [SerializeField] InputField joinMatchInput;
@@ -25,6 +32,8 @@ namespace Sokogaru.Lobby
         [SerializeField] Text matchIDText;
         [SerializeField] GameObject beginGameButton;
 
+        public SyncListPlayersPrefabs syncPlayersPrefabs;
+
         public void EnableSceneUICanvas()
         {
             this.sceneUICanvas.enabled = true;
@@ -35,9 +44,38 @@ namespace Sokogaru.Lobby
             this.sceneUICanvas.enabled = false;
         }
 
+        public void enableHostCanvas()
+        {
+            this.EnableSceneUICanvas();
+            this.characterSelectCanvas.enabled = false;
+            this.lobbyCanvas.enabled = false;
+        }
+
+        public void EnableCharacterSelectCanvas()
+        {
+            this.EnableSceneUICanvas();
+            this.characterSelectCanvas.enabled = true;
+            this.lobbyCanvas.enabled = false;
+        }
+
+        public void EnableLobbyCanvas()
+        {
+            this.EnableSceneUICanvas();
+            this.characterSelectCanvas.enabled = false;
+            this.lobbyCanvas.enabled = true;
+        }
+
         void Start()
         {
             instance = this;
+            this.lobbyCanvas.enabled = false;
+            this.characterSelectCanvas.enabled = true;
+
+            this.syncPlayersPrefabs = new SyncListPlayersPrefabs();
+            for (int i = 0; i < this.charactersPrefabs.Length; i++)
+            {
+                this.syncPlayersPrefabs.Add(this.charactersPrefabs[i]);
+            }
         }
 
         public void Host()

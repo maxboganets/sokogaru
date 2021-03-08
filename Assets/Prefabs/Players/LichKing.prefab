@@ -10,11 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 6818903222599744958}
   - component: {fileID: 6818903222599744959}
+  - component: {fileID: 3485301551203901137}
   - component: {fileID: 6818903222599744956}
   - component: {fileID: 6818903222599744953}
   - component: {fileID: 6818903222599744952}
-  - component: {fileID: 6818903222599744955}
   - component: {fileID: 6818903222599744954}
+  - component: {fileID: 9132068566294376442}
+  - component: {fileID: 8864560884320503832}
   m_Layer: 8
   m_Name: LichKing
   m_TagString: Player
@@ -87,6 +89,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3485301551203901137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818903222599744957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!95 &6818903222599744956
 Animator:
   serializedVersion: 3
@@ -165,31 +183,6 @@ PolygonCollider2D:
       - {x: 1.0625, y: -2.0625}
       - {x: 1.4375, y: -1.625}
       - {x: 1.4375, y: -1.25}
---- !u!114 &6818903222599744955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6818903222599744957}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 364efee553d5f4823a8d2a8b2c5dc5db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rangeProjectilePrefab: {fileID: 1498717324455551268, guid: 37dd6441f4e1749a792a8549ea3f0fd8, type: 3}
-  onHitColor: {r: 1, g: 0, b: 0.16159391, a: 1}
-  maxHealth: 10
-  meleePower: 1
-  rangePower: 1
-  moveSpeed: 4
-  jumpSpeed: 7
-  projectileSpeed: 15
-  jumpsInAirAllowed: 2
-  projectileStartOffsetX: 0.3
-  projectileLifeTime: 0.5
-  delayBetweenProjectiles: 0.5
-  animateFlip: 0
 --- !u!114 &6818903222599744954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,7 +210,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6818903222599744955}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
@@ -233,7 +226,7 @@ MonoBehaviour:
     m_ActionName: Player/Movement[/Keyboard/leftArrow,/Keyboard/rightArrow,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6818903222599744955}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
@@ -249,7 +242,7 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/upArrow,/Keyboard/w]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6818903222599744955}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: onRangeAttack
         m_Mode: 0
@@ -265,7 +258,7 @@ MonoBehaviour:
     m_ActionName: Player/CastSpell[/Keyboard/period,/Keyboard/1]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6818903222599744955}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: onUltimateAbility
         m_Mode: 0
@@ -284,3 +277,31 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &9132068566294376442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818903222599744957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7806aba7e973b477eacd903c86f3b508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &8864560884320503832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818903222599744957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af22b78934b194795a144f94e8976402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterName: Lich King
+  characterImage: {fileID: 8952541655908761084, guid: 0fcfceaed0004d3439489b53aaea464b, type: 3}

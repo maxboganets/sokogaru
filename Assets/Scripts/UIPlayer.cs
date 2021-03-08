@@ -8,12 +8,15 @@ namespace Sokogaru.Lobby
     public class UIPlayer : MonoBehaviour
     {
         [SerializeField] Text text;
+        [SerializeField] Image image;
         Player player;
 
         public void SetPlayer(Player player)
         {
             this.player = player;
-            text.text = "Player " + player.playerIndex.ToString();
+            var prefab = UILobby.instance.syncPlayersPrefabs[player.characterIndex];
+            image.GetComponent<Image>().sprite = prefab.GetComponent<CharacterPersonalization>().getCharacterImage();
+            text.text = this.player.characterName;
         }
     }
 }

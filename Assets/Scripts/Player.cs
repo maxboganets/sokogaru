@@ -12,6 +12,9 @@ namespace Sokogaru.Lobby
 
         [SyncVar] public string matchID;
         [SyncVar] public int playerIndex;
+        //[SyncVar] public GameObject characterPrefab;
+        [SyncVar] public int characterIndex;
+        [SyncVar] public string characterName;
 
         NetworkMatchChecker networkMatchChecker;
 
@@ -30,8 +33,17 @@ namespace Sokogaru.Lobby
 
         void Awake()
         {
-            Debug.Log("Player Awaken");
             DontDestroyOnLoad(gameObject);
+        }
+
+        /*
+         * Select Character & Set Name
+         */
+
+        public void SetCharacter(int _characterIndex, string _characterName)
+        {
+            this.characterIndex = _characterIndex;
+            this.characterName = _characterName;
         }
 
         /*
