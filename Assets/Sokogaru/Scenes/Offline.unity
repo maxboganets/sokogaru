@@ -351,8 +351,8 @@ MonoBehaviour:
   serverTickRate: 30
   serverBatching: 0
   serverBatchInterval: 0
-  offlineScene: Assets/Scenes/Offline.unity
-  onlineScene: Assets/Scenes/Lobby.unity
+  offlineScene: Assets/Sokogaru/Scenes/Offline.unity
+  onlineScene: Assets/Sokogaru/Scenes/Lobby.unity
   transport: {fileID: 59166915}
   networkAddress: localhost
   maxConnections: 100
@@ -364,6 +364,8 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 985218529048889941, guid: 981274449a5eb46729a139f567b80fa8, type: 3}
+  - {fileID: 5285738901786534312, guid: a83d97d4658e0431f8fb7e5891749c02, type: 3}
+  - {fileID: 4407919528123184890, guid: 6addf6b325969436d9adc9640f4b734a, type: 3}
 --- !u!1 &229184171
 GameObject:
   m_ObjectHideFlags: 0
