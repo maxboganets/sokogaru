@@ -87,7 +87,6 @@ GameObject:
   - component: {fileID: 4407919528123184889}
   - component: {fileID: 4407919528123184888}
   - component: {fileID: 791444235380140563}
-  - component: {fileID: -343517807799058733}
   m_Layer: 5
   m_Name: UIPlayer
   m_TagString: Untagged
@@ -168,22 +167,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 4340133295806393291}
   image: {fileID: 488847745369898120}
---- !u!114 &-343517807799058733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4407919528123184890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  serverOnly: 0
-  m_AssetId: 
-  hasSpawned: 0
 --- !u!1 &6232736839854339875
 GameObject:
   m_ObjectHideFlags: 0
