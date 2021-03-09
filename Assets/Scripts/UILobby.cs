@@ -128,6 +128,14 @@ namespace Sokogaru.Lobby
             }
         }
 
+        public void DeleteAllPlayerUIPrefabs()
+        {
+            foreach (Transform child in UIPlayersContainer)
+            {
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+
         public void SpawnPlayerUIPrefab(Player player)
         {
             GameObject newUIPlayer = Instantiate(UIPlayerPrefab, UIPlayersContainer);

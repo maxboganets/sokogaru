@@ -52,6 +52,7 @@ namespace Sokogaru.Lobby
                 this.matches.Add(new Match(_matchID, _player));
                 Debug.Log($"Match generated");
                 playerIndex = 1;
+                //Debug.Log("> Player: " + _player.GetComponent<Player>().characterName);
                 return true;
             } else
             {
@@ -70,6 +71,18 @@ namespace Sokogaru.Lobby
                     {
                         matches[i].players.Add(_player);
                         playerIndex = matches[i].players.Count;
+
+
+                        // Delete all players from lobby
+                        UILobby.instance.DeleteAllPlayerUIPrefabs();
+                        // Spawn all players in lobby
+                        foreach (GameObject player in matches[i].players)
+                        {
+                            Debug.Log("spawn player: " + player.GetComponent<Player>().characterName);
+                            UILobby.instance.SpawnPlayerUIPrefab(player.GetComponent<Player>());
+                        }
+
+
                         break;
                     }
                 }

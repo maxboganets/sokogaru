@@ -27,7 +27,7 @@ namespace Sokogaru.Lobby
                 localPlayer = this;
             } else
             {
-                UILobby.instance.SpawnPlayerUIPrefab(this);
+                //UILobby.instance.SpawnPlayerUIPrefab(this);
             }
         }
 
@@ -40,6 +40,7 @@ namespace Sokogaru.Lobby
          * Select Character & Set Name
          */
 
+        [Command]
         public void SetCharacter(int _characterIndex, string _characterName)
         {
             this.characterIndex = _characterIndex;
@@ -87,11 +88,11 @@ namespace Sokogaru.Lobby
 
         public void JoinGame(string _inputID)
         {
-            this.CmdJoinGame(_inputID);
+            this.CmdJoinGame(_inputID, this);
         }
 
         [Command]
-        void CmdJoinGame(string _matchID)
+        void CmdJoinGame(string _matchID, Player _player)
         {
             matchID = _matchID;
             if (MatchMaker.instance.JoinGame(_matchID, gameObject, out playerIndex))
@@ -99,6 +100,7 @@ namespace Sokogaru.Lobby
                 Debug.Log($"<color = green>Game Joined Successfully</color>");
                 networkMatchChecker.matchId = _matchID.ToGuid();
                 this.TargetJoinGame(true, _matchID, playerIndex);
+                //this.SpawnUILobbyPlayer(_player);
             }
             else
             {
@@ -106,6 +108,15 @@ namespace Sokogaru.Lobby
                 this.TargetJoinGame(false, _matchID, playerIndex);
             }
         }
+
+        //[ClientRpc]
+        //void SpawnUILobbyPlayer(Player _player)
+        //{
+        //    if (!isLocalPlayer)
+        //    {
+        //        UILobby.instance.SpawnPlayerUIPrefab(_player);
+        //    }
+        //}
 
         [TargetRpc]
         void TargetJoinGame(bool success, string _matchID, int _playerIndex)

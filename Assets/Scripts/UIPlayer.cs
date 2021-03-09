@@ -16,7 +16,7 @@ namespace Sokogaru.Lobby
             this.player = player;
             var prefab = UILobby.instance.syncPlayersPrefabs[player.characterIndex];
             image.GetComponent<Image>().sprite = prefab.GetComponent<CharacterPersonalization>().getCharacterImage();
-            text.text = this.player.characterName;
+            text.text = player.characterName;
         }
     }
 }
