@@ -11,6 +11,11 @@ namespace Sokogaru.Lobby
     public class Match
     {
         public string matchID;
+
+        public bool publicMatch;
+        public bool inMatch;
+        public bool matchFull;
+
         public SyncListGameObject players = new SyncListGameObject();
 
         public Match(string matchID, GameObject player)
@@ -43,16 +48,17 @@ namespace Sokogaru.Lobby
             instance = this;
         }
 
-        public bool HostGame(string _matchID, GameObject _player, out int playerIndex)
+        public bool HostGame(string _matchID, GameObject _player, bool publicMatch, out int playerIndex)
         {
             playerIndex = -1;
             if (!matchIDs.Contains(_matchID))
             {
                 this.matchIDs.Add(_matchID);
-                this.matches.Add(new Match(_matchID, _player));
+                Match match = new Match(_matchID, _player);
+                match.publicMatch = publicMatch;
+                this.matches.Add(match);
                 Debug.Log($"Match generated");
                 playerIndex = 1;
-                //Debug.Log("> Player: " + _player.GetComponent<Player>().characterName);
                 return true;
             } else
             {
@@ -71,18 +77,14 @@ namespace Sokogaru.Lobby
                     {
                         matches[i].players.Add(_player);
                         playerIndex = matches[i].players.Count;
-
-
-                        // Delete all players from lobby
-                        UILobby.instance.DeleteAllPlayerUIPrefabs();
-                        // Spawn all players in lobby
-                        foreach (GameObject player in matches[i].players)
-                        {
-                            Debug.Log("spawn player: " + player.GetComponent<Player>().characterName);
-                            UILobby.instance.SpawnPlayerUIPrefab(player.GetComponent<Player>());
-                        }
-
-
+                        //// Delete all players from lobby
+                        //UILobby.instance.DeleteAllPlayerUIPrefabs();
+                        //// Spawn all players in lobby
+                        //foreach (GameObject player in matches[i].players)
+                        //{
+                        //    Debug.Log("spawn player: " + player.GetComponent<Player>().characterName);
+                        //    UILobby.instance.SpawnPlayerUIPrefab(player.GetComponent<Player>());
+                        //}
                         break;
                     }
                 }
@@ -94,6 +96,26 @@ namespace Sokogaru.Lobby
                 Debug.Log($"Match ID does not exist");
                 return false;
             }
+        }
+
+        public bool SearchGame(GameObject _player, out int playerIndex, out string matchID)
+        {
+            playerIndex = -1;
+            matchID = string.Empty;
+
+            for (int i = 0; i < matches.Count; i++ )
+            {
+                if (matches[i].publicMatch && !matches[i].matchFull && !matches[i].inMatch)
+                {
+                    matchID = this.matches[i].matchID;
+                    if (this.JoinGame(matchID, _player, out playerIndex))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public void BeginGame(string _matchID)
@@ -134,6 +156,26 @@ namespace Sokogaru.Lobby
             }
             Debug.Log($"Random Match ID: {_id}");
             return _id;
+        }
+
+        public void PlayerDisconnected(Player player, string _matchID)
+        {
+            for (int i = 0; i < this.matches.Count; i++)
+            {
+                if (this.matches[i].matchID == _matchID)
+                {
+                    int playerIndex = this.matches[i].players.IndexOf(player.gameObject);
+                    this.matches[i].players.RemoveAt(playerIndex);
+                    Debug.Log($"Player disconected from match {_matchID} | {this.matches[i].players.Count} players remain");
+                    if (this.matches[i].players.Count == 0)
+                    {
+                        Debug.Log($"No more players in match. Terminating {_matchID}");
+                        this.matches.RemoveAt(i);
+                        this.matchIDs.Remove(_matchID);
+                    }
+                    break;
+                }
+            }
         }
     }
 }

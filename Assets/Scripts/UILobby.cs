@@ -22,9 +22,10 @@ namespace Sokogaru.Lobby
 
         [Header("Host Join")]
         [SerializeField] InputField joinMatchInput;
-        [SerializeField] Button joinButton;
-        [SerializeField] Button hostButton;
+        [SerializeField] List<Selectable> lobbySelectables = new List<Selectable>();
         [SerializeField] Canvas lobbyCanvas;
+        [SerializeField] Canvas searchCanvas;
+
 
         [Header("Lobby")]
         [SerializeField] Transform UIPlayersContainer;
@@ -32,7 +33,10 @@ namespace Sokogaru.Lobby
         [SerializeField] Text matchIDText;
         [SerializeField] GameObject beginGameButton;
 
+        GameObject playerLobbyUI;
+
         public SyncListPlayersPrefabs syncPlayersPrefabs;
+        bool searching = false;
 
         public void EnableSceneUICanvas()
         {
@@ -44,32 +48,44 @@ namespace Sokogaru.Lobby
             this.sceneUICanvas.enabled = false;
         }
 
-        public void enableHostCanvas()
+        public void DisableAllCanvases()
         {
-            this.EnableSceneUICanvas();
             this.characterSelectCanvas.enabled = false;
             this.lobbyCanvas.enabled = false;
+            this.searchCanvas.enabled = false;
+        }
+
+        public void EnableHostCanvas()
+        {
+            this.EnableSceneUICanvas();
+            this.DisableAllCanvases();
+        }
+
+        public void EnableSearchCanvas()
+        {
+            this.EnableSceneUICanvas();
+            this.DisableAllCanvases();
+            this.searchCanvas.enabled = true;
         }
 
         public void EnableCharacterSelectCanvas()
         {
             this.EnableSceneUICanvas();
+            this.DisableAllCanvases();
             this.characterSelectCanvas.enabled = true;
-            this.lobbyCanvas.enabled = false;
         }
 
         public void EnableLobbyCanvas()
         {
             this.EnableSceneUICanvas();
-            this.characterSelectCanvas.enabled = false;
+            this.DisableAllCanvases();
             this.lobbyCanvas.enabled = true;
         }
 
         void Start()
         {
             instance = this;
-            this.lobbyCanvas.enabled = false;
-            this.characterSelectCanvas.enabled = true;
+            this.EnableCharacterSelectCanvas();
 
             this.syncPlayersPrefabs = new SyncListPlayersPrefabs();
             for (int i = 0; i < this.charactersPrefabs.Length; i++)
@@ -78,36 +94,43 @@ namespace Sokogaru.Lobby
             }
         }
 
-        public void Host()
+        public void HostPrivate()
         {
-            joinMatchInput.interactable = false;
-            joinButton.interactable = false;
-            hostButton.interactable = false;
+            //joinMatchInput.interactable = false;
+            lobbySelectables.ForEach(x => x.interactable = false);
+            Player.localPlayer.HostGame(false);
+        }
 
-            Player.localPlayer.HostGame();
+        public void HostPublic()
+        {
+            //joinMatchInput.interactable = false;
+            lobbySelectables.ForEach(x => x.interactable = false);
+            Player.localPlayer.HostGame(true);
         }
 
         public void HostSuccess(bool success)
         {
             if (success)
             {
-                lobbyCanvas.enabled = true;
-                this.SpawnPlayerUIPrefab(Player.localPlayer);
+                this.EnableLobbyCanvas();
+                if (this.playerLobbyUI != null)
+                {
+                    Destroy(this.playerLobbyUI);
+                }
+                this.playerLobbyUI = this.SpawnPlayerUIPrefab(Player.localPlayer);
                 matchIDText.text = Player.localPlayer.matchID;
                 beginGameButton.SetActive(true);
             } else
             {
-                joinMatchInput.interactable = true;
-                joinButton.interactable = true;
-                hostButton.interactable = true;
+                //joinMatchInput.interactable = true;
+                lobbySelectables.ForEach(x => x.interactable = true);
             }
         }
 
         public void Join()
         {
             joinMatchInput.interactable = false;
-            joinButton.interactable = false;
-            hostButton.interactable = false;
+            lobbySelectables.ForEach(x => x.interactable = false);
 
             Player.localPlayer.JoinGame(joinMatchInput.text.ToUpper());
         }
@@ -116,15 +139,19 @@ namespace Sokogaru.Lobby
         {
             if (success)
             {
-                lobbyCanvas.enabled = true;
-                this.SpawnPlayerUIPrefab(Player.localPlayer);
+                this.EnableLobbyCanvas();
+                this.beginGameButton.SetActive(false);
+                if (this.playerLobbyUI != null)
+                {
+                    Destroy(this.playerLobbyUI);
+                }
+                this.playerLobbyUI = this.SpawnPlayerUIPrefab(Player.localPlayer);
                 matchIDText.text = matchID;
             }
             else
             {
-                joinMatchInput.interactable = true;
-                joinButton.interactable = true;
-                hostButton.interactable = true;
+                //joinMatchInput.interactable = true;
+                lobbySelectables.ForEach(x => x.interactable = true);
             }
         }
 
@@ -136,16 +163,71 @@ namespace Sokogaru.Lobby
             }
         }
 
-        public void SpawnPlayerUIPrefab(Player player)
+        public GameObject SpawnPlayerUIPrefab(Player player)
         {
             GameObject newUIPlayer = Instantiate(UIPlayerPrefab, UIPlayersContainer);
             newUIPlayer.GetComponent<UIPlayer>().SetPlayer(player);
             newUIPlayer.transform.SetSiblingIndex(player.playerIndex - 1);
+            return newUIPlayer;
         }
 
         public void BeginGame()
         {
             Player.localPlayer.BeginGame();
+        }
+
+        public void SearchGame()
+        {
+            Debug.Log($"Searching for game");
+            this.EnableSearchCanvas();
+            StartCoroutine(this.SearchingForGame());
+        }
+
+        IEnumerator SearchingForGame()
+        {
+            this.searching = true;
+            float currentTime = 1;
+            while(this.searching)
+            {
+                if (currentTime > 0)
+                {
+                    currentTime -= Time.deltaTime;
+                } else
+                {
+                    currentTime = 1;
+                    Player.localPlayer.SearchGame();
+                }
+                yield return null;
+            }
+        }
+
+        public void SearchSuccess(bool success, string matchID)
+        {
+            if (success)
+            {
+                this.searching = false;
+                this.JoinSuccess(success, matchID);
+                this.EnableLobbyCanvas();
+            }
+        }
+
+        public void SearchCancel()
+        {
+            this.searching = false;
+            this.EnableHostCanvas();
+            lobbySelectables.ForEach(x => x.interactable = true);
+        }
+
+        public void DisconnectLobby()
+        {
+            if (this.playerLobbyUI != null)
+            {
+                Destroy(this.playerLobbyUI);
+            }
+            Player.localPlayer.DisconectGame();
+            lobbySelectables.ForEach(x => x.interactable = true);
+            this.beginGameButton.SetActive(false);
+            this.EnableHostCanvas();
         }
     }
 }

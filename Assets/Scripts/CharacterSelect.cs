@@ -58,7 +58,7 @@ namespace Sokogaru.Lobby
         public void SubmitCharacter()
         {
             Player.localPlayer.SetCharacter(this.selectedCharacterIndex, this.playerName.text);
-            UILobby.instance.enableHostCanvas();
+            UILobby.instance.EnableHostCanvas();
         }
     }
 }
