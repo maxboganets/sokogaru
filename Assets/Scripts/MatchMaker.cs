@@ -7,20 +7,57 @@ using Mirror;
 
 namespace Sokogaru.Lobby
 {
+    public enum GameModeType
+    {
+        deathmatch,
+        kingOfHill,
+        captuteTheFlag
+    };
+
+    [System.Serializable]
+    public class GameModeController
+    {
+        public GameModeController instance;
+        public GameModeType mode;
+        public int maxPlayers;
+
+        public GameModeController(GameModeType mode)
+        {
+            this.mode = mode;
+            this.instance = this;
+            switch (this.mode)
+            {
+                case GameModeType.deathmatch:
+                    this.maxPlayers = 2;
+                    break;
+                case GameModeType.kingOfHill:
+                    this.maxPlayers = 4;
+                    break;
+                case GameModeType.captuteTheFlag:
+                    this.maxPlayers = 4;
+                    break;
+            }
+        }
+
+        public GameModeController() { }
+    }
+
     [System.Serializable]
     public class Match
     {
         public string matchID;
 
+        public GameModeController gameModeController;
         public bool publicMatch;
         public bool inMatch;
         public bool matchFull;
 
         public SyncListGameObject players = new SyncListGameObject();
 
-        public Match(string matchID, GameObject player)
+        public Match(string matchID, GameObject player, GameModeType gameMode)
         {
             this.matchID = matchID;
+            this.gameModeController = new GameModeController(gameMode);
             players.Add(player);
         }
 
@@ -54,7 +91,7 @@ namespace Sokogaru.Lobby
             if (!matchIDs.Contains(_matchID))
             {
                 this.matchIDs.Add(_matchID);
-                Match match = new Match(_matchID, _player);
+                Match match = new Match(_matchID, _player, GameModeType.deathmatch);
                 match.publicMatch = publicMatch;
                 this.matches.Add(match);
                 Debug.Log($"Match generated");
@@ -77,14 +114,14 @@ namespace Sokogaru.Lobby
                     {
                         matches[i].players.Add(_player);
                         playerIndex = matches[i].players.Count;
-                        //// Delete all players from lobby
-                        //UILobby.instance.DeleteAllPlayerUIPrefabs();
-                        //// Spawn all players in lobby
-                        //foreach (GameObject player in matches[i].players)
-                        //{
-                        //    Debug.Log("spawn player: " + player.GetComponent<Player>().characterName);
-                        //    UILobby.instance.SpawnPlayerUIPrefab(player.GetComponent<Player>());
-                        //}
+                        // If match fullfilled - start match
+                        if (matches[i].players.Count == matches[i].gameModeController.maxPlayers)
+                        {
+                            // Set match.inMatch = true
+                            matches[i].inMatch = true;
+                            // Begin game
+                            this.BeginGame(_matchID);
+                        }
                         break;
                     }
                 }
@@ -133,7 +170,6 @@ namespace Sokogaru.Lobby
                         Player _player = player.GetComponent<Player>();
                         gameManager.AddPlayer(_player);
                         _player.StartGame();
-
                     }
                     break;
                 }

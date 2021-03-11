@@ -17,9 +17,9 @@ namespace Sokogaru.Lobby
         private int selectedCharacterIndex;
         private int minNickNameLength = 3;
 
-        void Awake()
+        void Start()
         {
-            if (UILobby.instance.syncPlayersPrefabs != null && UILobby.instance.syncPlayersPrefabs.Count > 0)
+            if (UILobby.instance.charactersPrefabs.Length > 0)
             {
                 this.SetCharacter(0);
             }
@@ -35,13 +35,13 @@ namespace Sokogaru.Lobby
         {
             var newIndex = (this.selectedCharacterIndex > 0)
                 ? this.selectedCharacterIndex - 1
-                : UILobby.instance.syncPlayersPrefabs.Count - 1;
+                : UILobby.instance.charactersPrefabs.Length - 1;
             this.SetCharacter(newIndex);
         }
 
         public void ScrollRight()
         {
-            var newIndex = (this.selectedCharacterIndex < UILobby.instance.syncPlayersPrefabs.Count - 1)
+            var newIndex = (this.selectedCharacterIndex < UILobby.instance.charactersPrefabs.Length - 1)
                 ? this.selectedCharacterIndex + 1
                 : 0;
             this.SetCharacter(newIndex);
@@ -50,7 +50,7 @@ namespace Sokogaru.Lobby
         private void SetCharacter(int _characterIndex)
         {
             this.selectedCharacterIndex = _characterIndex;
-            var selectedPrefab = UILobby.instance.syncPlayersPrefabs[this.selectedCharacterIndex];
+            var selectedPrefab = UILobby.instance.charactersPrefabs[this.selectedCharacterIndex];
             this.characterImage.GetComponent<Image>().sprite = selectedPrefab.GetComponent<CharacterPersonalization>().getCharacterImage();
             this.characterName.text = selectedPrefab.GetComponent<CharacterPersonalization>().getCharacterName();
         }

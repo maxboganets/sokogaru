@@ -6,9 +6,6 @@ using Mirror;
 
 namespace Sokogaru.Lobby
 {
-    [System.Serializable]
-    public class SyncListPlayersPrefabs : SyncList<GameObject> { }
-
     public class UILobby : NetworkBehaviour
     {
         public static UILobby instance;
@@ -35,7 +32,6 @@ namespace Sokogaru.Lobby
 
         GameObject playerLobbyUI;
 
-        public SyncListPlayersPrefabs syncPlayersPrefabs;
         bool searching = false;
 
         public void EnableSceneUICanvas()
@@ -86,24 +82,16 @@ namespace Sokogaru.Lobby
         {
             instance = this;
             this.EnableCharacterSelectCanvas();
-
-            this.syncPlayersPrefabs = new SyncListPlayersPrefabs();
-            for (int i = 0; i < this.charactersPrefabs.Length; i++)
-            {
-                this.syncPlayersPrefabs.Add(this.charactersPrefabs[i]);
-            }
         }
 
         public void HostPrivate()
         {
-            //joinMatchInput.interactable = false;
             lobbySelectables.ForEach(x => x.interactable = false);
             Player.localPlayer.HostGame(false);
         }
 
         public void HostPublic()
         {
-            //joinMatchInput.interactable = false;
             lobbySelectables.ForEach(x => x.interactable = false);
             Player.localPlayer.HostGame(true);
         }
@@ -122,7 +110,6 @@ namespace Sokogaru.Lobby
                 beginGameButton.SetActive(true);
             } else
             {
-                //joinMatchInput.interactable = true;
                 lobbySelectables.ForEach(x => x.interactable = true);
             }
         }
@@ -150,7 +137,6 @@ namespace Sokogaru.Lobby
             }
             else
             {
-                //joinMatchInput.interactable = true;
                 lobbySelectables.ForEach(x => x.interactable = true);
             }
         }
