@@ -28,7 +28,6 @@ namespace Sokogaru.Lobby
         [SerializeField] Transform UIPlayersContainer;
         [SerializeField] GameObject UIPlayerPrefab;
         [SerializeField] Text matchIDText;
-        [SerializeField] GameObject beginGameButton;
 
         GameObject playerLobbyUI;
 
@@ -109,7 +108,6 @@ namespace Sokogaru.Lobby
                 }
                 this.playerLobbyUI = this.SpawnPlayerUIPrefab(Player.localPlayer);
                 matchIDText.text = Player.localPlayer.matchID;
-                beginGameButton.SetActive(true);
             } else
             {
                 lobbySelectables.ForEach(x => x.interactable = true);
@@ -129,7 +127,6 @@ namespace Sokogaru.Lobby
             if (success)
             {
                 this.EnableLobbyCanvas();
-                this.beginGameButton.SetActive(false);
                 if (this.playerLobbyUI != null)
                 {
                     Destroy(this.playerLobbyUI);
@@ -214,7 +211,6 @@ namespace Sokogaru.Lobby
             }
             Player.localPlayer.DisconectGame();
             lobbySelectables.ForEach(x => x.interactable = true);
-            this.beginGameButton.SetActive(false);
             this.EnableHostCanvas();
         }
     }

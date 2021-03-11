@@ -10,7 +10,7 @@ namespace Sokogaru.Lobby
     public enum GameModeType
     {
         deathmatch,
-        kingOfHill,
+        brawl,
         captuteTheFlag
     };
 
@@ -30,7 +30,7 @@ namespace Sokogaru.Lobby
                 case GameModeType.deathmatch:
                     this.maxPlayers = 2;
                     break;
-                case GameModeType.kingOfHill:
+                case GameModeType.brawl:
                     this.maxPlayers = 4;
                     break;
                 case GameModeType.captuteTheFlag:
