@@ -174,7 +174,7 @@ namespace Sokogaru.Lobby
         [Command]
         void CmdBeginGame()
         {
-            MatchMaker.instance.BeginGame(matchID );
+            MatchMaker.instance.BeginGame(matchID);
             Debug.Log($"<color=green>Game Beginning</color>");
         }
 
@@ -187,10 +187,10 @@ namespace Sokogaru.Lobby
         void TargetBeginGame()
         {
             Debug.Log($"MatchID: {matchID} | Beginning");
-            // Hide Lobby Canvas
-            UILobby.instance.DisableSceneUICanvas();
             // Additively Load Game Scene
             SceneManager.LoadScene(2, LoadSceneMode.Additive);
+            // Hide Lobby Canvas
+            UILobby.instance.DisableSceneUICanvas();
         }
 
         /*

@@ -157,12 +157,21 @@ namespace Sokogaru.Lobby
 
         public void BeginGame(string _matchID)
         {
+            // Allow all clients to connect and initiate all classes
+            StartCoroutine(this._BeginGameAfterWait(_matchID));
+        }
+
+        private IEnumerator _BeginGameAfterWait(string _matchID)
+        {
+            yield return new WaitForSeconds(0.3F);
+
             GameObject newGameManager = Instantiate(this.gameManagerPrefab);
             NetworkServer.Spawn(newGameManager);
             newGameManager.GetComponent<NetworkMatchChecker>().matchId = _matchID.ToGuid();
             GameManager gameManager = newGameManager.GetComponent<GameManager>();
 
-            for (int i = 0; i < this.matches.Count; i++) {
+            for (int i = 0; i < this.matches.Count; i++)
+            {
                 if (this.matches[i].matchID == _matchID)
                 {
                     foreach (var player in this.matches[i].players)

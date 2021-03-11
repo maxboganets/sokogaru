@@ -41,7 +41,9 @@ namespace Sokogaru.Lobby
 
         public void DisableSceneUICanvas()
         {
+            Debug.Log($"<color=red>DisableSceneUICanvas 1</color>");
             this.sceneUICanvas.enabled = false;
+            Debug.Log($"<color=red>DisableSceneUICanvas 2</color>");
         }
 
         public void DisableAllCanvases()
