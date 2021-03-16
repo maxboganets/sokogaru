@@ -364,6 +364,9 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 985218529048889941, guid: 981274449a5eb46729a139f567b80fa8, type: 3}
+  - {fileID: 5700347241161848949, guid: 7cbe518dfbb4b4f10bf64d847b4b6162, type: 3}
+  - {fileID: 6818903222599744957, guid: 7c65da48d66c045029bf8d1241cd696b, type: 3}
+  - {fileID: 667090720945680912, guid: faafd95af27b645bf924ec5eb8707943, type: 3}
 --- !u!1 &229184171
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,7 +671,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 626592831}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &626592833
 Camera:
   m_ObjectHideFlags: 0
@@ -855,6 +858,10 @@ PrefabInstance:
     - target: {fileID: 6593236868271907731, guid: faafd95af27b645bf924ec5eb8707943, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7060252191198267930, guid: faafd95af27b645bf924ec5eb8707943, type: 3}
+      propertyPath: sceneId
+      value: 3710298119
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faafd95af27b645bf924ec5eb8707943, type: 3}
@@ -1082,6 +1089,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 421552435}
     m_Modifications:
+    - target: {fileID: 6049451540770468988, guid: 862c89808e773450c9ad918e3cfbb67e, type: 3}
+      propertyPath: sceneId
+      value: 3965412271
+      objectReference: {fileID: 0}
     - target: {fileID: 8944850963994804474, guid: 862c89808e773450c9ad918e3cfbb67e, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1357,6 +1368,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 7060252191198267930, guid: faafd95af27b645bf924ec5eb8707943, type: 3}
+      propertyPath: sceneId
+      value: 4252974577
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faafd95af27b645bf924ec5eb8707943, type: 3}
 --- !u!4 &1728828787 stripped
@@ -1449,6 +1464,10 @@ PrefabInstance:
     - target: {fileID: 6593236868271907731, guid: faafd95af27b645bf924ec5eb8707943, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7060252191198267930, guid: faafd95af27b645bf924ec5eb8707943, type: 3}
+      propertyPath: sceneId
+      value: 3305167555
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faafd95af27b645bf924ec5eb8707943, type: 3}

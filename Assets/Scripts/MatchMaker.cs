@@ -9,7 +9,7 @@ namespace Sokogaru.Lobby
 {
     public enum GameModeType
     {
-        deathmatch,
+        duel,
         brawl,
         captuteTheFlag
     };
@@ -27,7 +27,7 @@ namespace Sokogaru.Lobby
             this.instance = this;
             switch (this.mode)
             {
-                case GameModeType.deathmatch:
+                case GameModeType.duel:
                     this.maxPlayers = 2;
                     break;
                 case GameModeType.brawl:
@@ -91,7 +91,7 @@ namespace Sokogaru.Lobby
             if (!matchIDs.Contains(_matchID))
             {
                 this.matchIDs.Add(_matchID);
-                Match match = new Match(_matchID, _player, GameModeType.deathmatch);
+                Match match = new Match(_matchID, _player, GameModeType.duel);
                 match.publicMatch = publicMatch;
                 this.matches.Add(match);
                 Debug.Log($"Match generated");
@@ -180,6 +180,8 @@ namespace Sokogaru.Lobby
                         gameManager.AddPlayer(_player);
                         _player.StartGame();
                     }
+                    yield return new WaitForSeconds(0.5F);
+                    gameManager.SpawnPlayers();
                     break;
                 }
             }

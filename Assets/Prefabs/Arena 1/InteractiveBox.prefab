@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: 797423121642000469}
   - component: {fileID: 883039044713748229}
   - component: {fileID: 2721429910440701888}
+  - component: {fileID: 7060252191198267930}
   m_Layer: 3
   m_Name: InteractiveBox
   m_TagString: InteractiveObject
@@ -645,6 +646,22 @@ MonoBehaviour:
   - {fileID: 3888816328992689123}
   - {fileID: 4695630399912473427}
   - {fileID: 2315870723427595409}
+--- !u!114 &7060252191198267930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667090720945680912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &901662004585872273
 GameObject:
   m_ObjectHideFlags: 0

@@ -803,7 +803,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104649087}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &104649089
 Camera:
   m_ObjectHideFlags: 0
@@ -2872,7 +2872,6 @@ MonoBehaviour:
   UIPlayersContainer: {fileID: 359628824}
   UIPlayerPrefab: {fileID: 4407919528123184890, guid: 6addf6b325969436d9adc9640f4b734a, type: 3}
   matchIDText: {fileID: 446872400}
-  beginGameButton: {fileID: 853662808}
 --- !u!114 &1422944855
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobby.unity
     guid: 31de28e60b9044c57b57f7280d8fd25c
   - enabled: 1
-    path: Assets/Scenes/DeathMatch/Arena_1.unity
+    path: Assets/Scenes/Duel/Arena_1.unity
     guid: 07590930b7dca4e1093c1c3497977f9b
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f448f1cff15b14ac59ed524752ce33c0, type: 2}
