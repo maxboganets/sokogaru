@@ -13,14 +13,13 @@ GameObject:
   - component: {fileID: 7914362103747022785}
   - component: {fileID: 5868041339796773394}
   - component: {fileID: 7441351822051687584}
-  - component: {fileID: 1542715679242440330}
   - component: {fileID: -5540476828444848119}
   - component: {fileID: 7453917837043436701}
-  - component: {fileID: 827659374464725247}
   - component: {fileID: -8489038801538719522}
-  m_Layer: 0
+  - component: {fileID: 1555865549583065355}
+  m_Layer: 8
   m_Name: ArcaneArcher
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -195,20 +194,6 @@ PolygonCollider2D:
       - {x: 0.13, y: -0.03}
       - {x: 0.11, y: -0.049999997}
       - {x: 0.11, y: -0.04}
---- !u!114 &1542715679242440330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5700347241161848949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7806aba7e973b477eacd903c86f3b508, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &-5540476828444848119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +237,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1542715679242440330}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
@@ -268,7 +253,7 @@ MonoBehaviour:
     m_ActionName: Player/Movement[/Keyboard/leftArrow,/Keyboard/rightArrow,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1542715679242440330}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
@@ -284,7 +269,7 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/upArrow,/Keyboard/w]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1542715679242440330}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: onRangeAttack
         m_Mode: 0
@@ -300,7 +285,7 @@ MonoBehaviour:
     m_ActionName: Player/FireProjectile[/Keyboard/period,/Keyboard/f]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1542715679242440330}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: onUltimateAbility
         m_Mode: 0
@@ -319,31 +304,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &827659374464725247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5700347241161848949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 364efee553d5f4823a8d2a8b2c5dc5db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rangeProjectilePrefab: {fileID: 0}
-  onHitColor: {r: 1, g: 0, b: 0, a: 1}
-  maxHealth: 10
-  meleePower: 0
-  rangePower: 0
-  moveSpeed: 3.5
-  jumpSpeed: 6.5
-  projectileSpeed: 15
-  jumpsInAirAllowed: 2
-  projectileStartOffsetX: 0.3
-  projectileLifeTime: 0.5
-  delayBetweenProjectiles: 0.5
-  animateFlip: 0
 --- !u!114 &-8489038801538719522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,3 +318,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Arcane Archer
   characterImage: {fileID: 4116411608050698257, guid: a42f8984e18164db0be6d98898313b87, type: 3}
+--- !u!114 &1555865549583065355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5700347241161848949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7806aba7e973b477eacd903c86f3b508, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
