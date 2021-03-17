@@ -237,8 +237,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+      - m_Target: {fileID: 1555865549583065355}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -253,8 +253,8 @@ MonoBehaviour:
     m_ActionName: Player/Movement[/Keyboard/leftArrow,/Keyboard/rightArrow,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+      - m_Target: {fileID: 1555865549583065355}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -269,8 +269,8 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/upArrow,/Keyboard/w]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+      - m_Target: {fileID: 1555865549583065355}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: onRangeAttack
         m_Mode: 0
         m_Arguments:
@@ -285,8 +285,8 @@ MonoBehaviour:
     m_ActionName: Player/FireProjectile[/Keyboard/period,/Keyboard/f]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+      - m_Target: {fileID: 1555865549583065355}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: onUltimateAbility
         m_Mode: 0
         m_Arguments:

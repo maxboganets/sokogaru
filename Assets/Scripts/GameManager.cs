@@ -28,7 +28,9 @@ namespace Sokogaru.Lobby
                 var prefab = UILobby.instance.charactersPrefabs[player.characterIndex];
                 Vector3 playerSpawnPosition = GameObject.Find($"Player{player.playerIndex.ToString()}Spawn").transform.position;
                 GameObject playerCharacterObject = Instantiate(prefab, playerSpawnPosition, Quaternion.identity);
-                NetworkServer.Spawn(playerCharacterObject);
+                NetworkIdentity m_Identity = player.GetComponent<NetworkIdentity>();
+                NetworkServer.Spawn(playerCharacterObject, m_Identity.connectionToClient);
+                playerCharacterObject.GetComponent<NetworkIdentity>().AssignClientAuthority(m_Identity.connectionToClient);
             }
         }
     }

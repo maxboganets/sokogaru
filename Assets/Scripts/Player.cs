@@ -17,11 +17,11 @@ namespace Sokogaru.Lobby
 
         NetworkMatchChecker networkMatchChecker;
         GameObject playerLobbyUI;
+        //public NetworkConnection connectionToClient;
 
         void Awake()
         {
             this.networkMatchChecker = GetComponent<NetworkMatchChecker>();
-            //DontDestroyOnLoad(gameObject);
         }
 
         public override void OnStartClient()

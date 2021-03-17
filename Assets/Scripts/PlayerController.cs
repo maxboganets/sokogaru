@@ -71,6 +71,7 @@ public class PlayerController : NetworkBehaviour
     // Callback function for OnJump
     public void OnJump(InputAction.CallbackContext context)
     {
+        Debug.Log($"<color=blue>JUMP PRESSED</color>");
         if (isLocalPlayer && context.ReadValueAsButton())
         {
             this.SetActionTriggered(ControlAction.jump);
@@ -147,6 +148,18 @@ public class PlayerController : NetworkBehaviour
         if (isLocalPlayer)
         {
             this.ExecuteControlActions();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (this.isLocalPlayer)
+        {
+            float movement = Input.GetAxis("Horizontal");
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Log(">>>>>>>>>>> SPACE");
+            }
         }
     }
 
