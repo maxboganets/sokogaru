@@ -49,7 +49,7 @@ public class PlayerController : NetworkBehaviour
     // Callback function for OnMove
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (isLocalPlayer) {
+        if (hasAuthority) {
             movementInput = context.ReadValue<Vector2>();
             ControlAction cAction;
             if (movementInput.x > 0)
@@ -71,9 +71,9 @@ public class PlayerController : NetworkBehaviour
     // Callback function for OnJump
     public void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log($"<color=blue>JUMP PRESSED</color>");
-        if (isLocalPlayer && context.ReadValueAsButton())
+        if (hasAuthority && context.ReadValueAsButton())
         {
+            Debug.Log($"<color=blue>JUMP PRESSED</color>");
             this.SetActionTriggered(ControlAction.jump);
         }
     }
@@ -81,7 +81,7 @@ public class PlayerController : NetworkBehaviour
     // Callback function for onRangeAttack
     public void onRangeAttack(InputAction.CallbackContext context)
     {
-        if (isLocalPlayer && /*this.HasRangeAttack() && */context.ReadValueAsButton())
+        if (hasAuthority && context.ReadValueAsButton())
         {
             this.SetActionTriggered(ControlAction.rangeAttack);
         }
@@ -90,7 +90,7 @@ public class PlayerController : NetworkBehaviour
     // Callback function for onUltimateAbility
     public void onUltimateAbility(InputAction.CallbackContext context)
     {
-        if (isLocalPlayer && context.ReadValueAsButton())
+        if (hasAuthority && context.ReadValueAsButton())
         {
             this.SetActionTriggered(ControlAction.ultimateAbility);
 
@@ -145,21 +145,9 @@ public class PlayerController : NetworkBehaviour
     [Client]
     void Update()
     {
-        if (isLocalPlayer)
+        if (hasAuthority)
         {
             this.ExecuteControlActions();
-        }
-    }
-
-    void FixedUpdate()
-    {
-        if (this.isLocalPlayer)
-        {
-            float movement = Input.GetAxis("Horizontal");
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Debug.Log(">>>>>>>>>>> SPACE");
-            }
         }
     }
 
@@ -172,22 +160,30 @@ public class PlayerController : NetworkBehaviour
     private void DoCmdOnServer(ControlAction cAction)
     {
         if (cAction != ControlAction.none) {
-            this.RpcCdmOnClient(cAction);
+            //this.RpcCdmOnClient(cAction);
+            if (cAction == ControlAction.jump)
+            {
+                this.doJump();
+            }
+            if (cAction == ControlAction.walkLeft || cAction == ControlAction.walkRight || cAction == ControlAction.walkStop)
+            {
+                this.doWalk(cAction);
+            }
         }
     }
 
-    [ClientRpc]
-    private void RpcCdmOnClient(ControlAction cAction)
-    {
-        if (cAction == ControlAction.jump)
-        {
-            this.doJump();
-        }
-        if (cAction == ControlAction.walkLeft || cAction == ControlAction.walkRight || cAction == ControlAction.walkStop)
-        {
-            this.doWalk(cAction);
-        }
-    }
+    //[ClientRpc]
+    //private void RpcCdmOnClient(ControlAction cAction)
+    //{
+    //    if (cAction == ControlAction.jump)
+    //    {
+    //        this.doJump();
+    //    }
+    //    if (cAction == ControlAction.walkLeft || cAction == ControlAction.walkRight || cAction == ControlAction.walkStop)
+    //    {
+    //        this.doWalk(cAction);
+    //    }
+    //}
 
     void UpdateFacing(PlayerFacing newDirection)
     {
