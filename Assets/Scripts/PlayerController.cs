@@ -6,6 +6,16 @@ using Mirror;
 
 public class PlayerController : NetworkBehaviour
 {
+    [SerializeField] GameObject rangeProjectilePrefab;
+    [SerializeField] Color onHitColor = Color.red;
+    [SerializeField] int maxHealth = 10;
+    [SerializeField] int meleePower = 2;
+    [SerializeField] int rangePower = 2;
+    [SerializeField] float moveSpeed = 3.5F;
+    [SerializeField] float jumpSpeed = 6.5F;
+    [SerializeField] int projectileSpeed = 15;
+    [SerializeField] int jumpsInAirAllowed = 2;
+
     private enum ControlAction
     {
         none,
@@ -73,7 +83,6 @@ public class PlayerController : NetworkBehaviour
     {
         if (hasAuthority && context.ReadValueAsButton())
         {
-            Debug.Log($"<color=blue>JUMP PRESSED</color>");
             this.SetActionTriggered(ControlAction.jump);
         }
     }
@@ -160,30 +169,25 @@ public class PlayerController : NetworkBehaviour
     private void DoCmdOnServer(ControlAction cAction)
     {
         if (cAction != ControlAction.none) {
-            //this.RpcCdmOnClient(cAction);
-            if (cAction == ControlAction.jump)
-            {
-                this.doJump();
-            }
             if (cAction == ControlAction.walkLeft || cAction == ControlAction.walkRight || cAction == ControlAction.walkStop)
             {
                 this.doWalk(cAction);
+            } else
+            {
+                if (cAction == ControlAction.jump)
+                {
+                    this.doJump();
+                }
+                this.TargetResetAction(ControlAction.none);
             }
         }
     }
 
-    //[ClientRpc]
-    //private void RpcCdmOnClient(ControlAction cAction)
-    //{
-    //    if (cAction == ControlAction.jump)
-    //    {
-    //        this.doJump();
-    //    }
-    //    if (cAction == ControlAction.walkLeft || cAction == ControlAction.walkRight || cAction == ControlAction.walkStop)
-    //    {
-    //        this.doWalk(cAction);
-    //    }
-    //}
+    [TargetRpc]
+    void TargetResetAction(ControlAction cAction)
+    {
+        this.SetActionTriggered(cAction);
+    }
 
     void UpdateFacing(PlayerFacing newDirection)
     {
@@ -218,20 +222,18 @@ public class PlayerController : NetworkBehaviour
 
     void doJump()
     {
-        //transform.position = transform.position + new Vector3(0, 0.5f, 0);
-        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, 6);
+        rigidbody2D.velocity = new Vector2(rigidbody2D.velocity.x, this.jumpSpeed);
     }
 
     void doWalk(ControlAction cAction)
     {
-        //transform.position = transform.position + new Vector3(0.1f * (this.playerFacing == PlayerFacing.right ? 1 : -1), 0, 0);
         float moveVelocity = 0;
         if (cAction == ControlAction.walkRight)
         {
-            moveVelocity = 5;
+            moveVelocity = this.moveSpeed;
         } else if (cAction == ControlAction.walkLeft)
         {
-            moveVelocity = -5;
+            moveVelocity = -this.moveSpeed;
         }
         rigidbody2D.velocity = new Vector2(moveVelocity, rigidbody2D.velocity.y);
     }

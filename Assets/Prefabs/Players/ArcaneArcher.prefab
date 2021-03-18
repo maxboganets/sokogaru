@@ -333,6 +333,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  rangeProjectilePrefab: {fileID: 0}
+  onHitColor: {r: 1, g: 0.4895674, b: 0, a: 1}
+  maxHealth: 4
+  meleePower: 1
+  rangePower: 2
+  moveSpeed: 4
+  jumpSpeed: 6
+  projectileSpeed: 15
+  jumpsInAirAllowed: 2
 --- !u!114 &-1130059052098069884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,7 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  interpolationBackTime: 0.01
+  interpolationBackTime: 0.05
   extrapolationMode: 2
   useExtrapolationTimeLimit: 0
   extrapolationTimeLimit: 5
@@ -366,27 +375,27 @@ MonoBehaviour:
   positionLerpSpeed: 0.85
   rotationLerpSpeed: 0.85
   scaleLerpSpeed: 0.85
-  timeCorrectionSpeed: 0.01
+  timeCorrectionSpeed: 0.05
   snapTimeThreshold: 0.1
-  syncPosition: 0
-  syncRotation: 0
-  syncScale: 0
-  syncVelocity: 0
-  syncAngularVelocity: 0
+  syncPosition: 1
+  syncRotation: 7
+  syncScale: 7
+  syncVelocity: 1
+  syncAngularVelocity: 1
   isPositionCompressed: 0
   isRotationCompressed: 0
   isScaleCompressed: 0
   isVelocityCompressed: 0
   isAngularVelocityCompressed: 0
   automaticallyResetTime: 1
-  isSmoothingAuthorityChanges: 0
+  isSmoothingAuthorityChanges: 1
   transformSource: 0
   whenToUpdateTransform: 0
   sendRate: 30
   networkChannel: 1
   childObjectToSync: {fileID: 0}
-  setVelocityInsteadOfPositionOnNonOwners: 0
-  maxPositionDifferenceForVelocitySyncing: 10
+  setVelocityInsteadOfPositionOnNonOwners: 1
+  maxPositionDifferenceForVelocitySyncing: 5
   useLocalTransformOnly: 0
   ownerChangeIndicator: 1
   receivedStatesCounter: 0

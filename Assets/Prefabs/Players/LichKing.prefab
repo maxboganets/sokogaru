@@ -292,6 +292,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  rangeProjectilePrefab: {fileID: 0}
+  onHitColor: {r: 0.754717, g: 0.010679938, b: 0.010679938, a: 1}
+  maxHealth: 7
+  meleePower: 2
+  rangePower: 1
+  moveSpeed: 4
+  jumpSpeed: 6.5
+  projectileSpeed: 15
+  jumpsInAirAllowed: 2
 --- !u!114 &8864560884320503832
 MonoBehaviour:
   m_ObjectHideFlags: 0
