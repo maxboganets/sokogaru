@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class SlidePlatform : MonoBehaviour
+public class SlidePlatform : NetworkBehaviour
 {
     [SerializeField] SlideDirection slideDirection = SlideDirection.slideX;
     [SerializeField] bool positiveDirectionAtStart = true;
@@ -16,7 +17,9 @@ public class SlidePlatform : MonoBehaviour
         slideY
     };
 
+    [SyncVar]
     private bool positiveDirection;
+    [SyncVar]
     private Vector2 startPosition;
 
     private void Start()

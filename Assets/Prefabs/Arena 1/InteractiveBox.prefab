@@ -420,6 +420,7 @@ GameObject:
   - component: {fileID: 883039044713748229}
   - component: {fileID: 2721429910440701888}
   - component: {fileID: 7060252191198267930}
+  - component: {fileID: -1270844182844979784}
   m_Layer: 3
   m_Name: InteractiveBox
   m_TagString: InteractiveObject
@@ -662,6 +663,63 @@ MonoBehaviour:
   serverOnly: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &-1270844182844979784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 667090720945680912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad225009ad414e1428332cab226f38fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  interpolationBackTime: 0.1
+  extrapolationMode: 1
+  useExtrapolationTimeLimit: 1
+  extrapolationTimeLimit: 5
+  useExtrapolationDistanceLimit: 0
+  extrapolationDistanceLimit: 20
+  sendPositionThreshold: 0
+  sendRotationThreshold: 0
+  sendScaleThreshold: 0
+  sendVelocityThreshold: 0
+  sendAngularVelocityThreshold: 0
+  receivedPositionThreshold: 0
+  receivedRotationThreshold: 0
+  snapPositionThreshold: 0
+  snapRotationThreshold: 0
+  snapScaleThreshold: 0
+  positionLerpSpeed: 0.85
+  rotationLerpSpeed: 0.85
+  scaleLerpSpeed: 0.85
+  timeCorrectionSpeed: 0.01
+  snapTimeThreshold: 0.3
+  syncPosition: 0
+  syncRotation: 0
+  syncScale: 0
+  syncVelocity: 0
+  syncAngularVelocity: 0
+  isPositionCompressed: 0
+  isRotationCompressed: 0
+  isScaleCompressed: 0
+  isVelocityCompressed: 0
+  isAngularVelocityCompressed: 0
+  automaticallyResetTime: 1
+  isSmoothingAuthorityChanges: 0
+  transformSource: 0
+  whenToUpdateTransform: 0
+  sendRate: 30
+  networkChannel: 1
+  childObjectToSync: {fileID: 0}
+  setVelocityInsteadOfPositionOnNonOwners: 0
+  maxPositionDifferenceForVelocitySyncing: 10
+  useLocalTransformOnly: 0
+  ownerChangeIndicator: 1
+  receivedStatesCounter: 0
 --- !u!1 &901662004585872273
 GameObject:
   m_ObjectHideFlags: 0

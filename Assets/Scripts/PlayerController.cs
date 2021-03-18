@@ -139,7 +139,7 @@ public class PlayerController : NetworkBehaviour
         {
             this.DoCmdOnServer(cAction);
         }
-        this.SetActionTriggered(ControlAction.none);
+        //this.SetActionTriggered(ControlAction.none);
     }
 
     [Client]

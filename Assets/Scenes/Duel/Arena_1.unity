@@ -373,6 +373,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Platform 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6799015185263979250, guid: 19ade7a9def764554a26dc46b93e3664, type: 3}
+      propertyPath: sceneId
+      value: 3127932262
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 19ade7a9def764554a26dc46b93e3664, type: 3}
@@ -561,6 +565,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slider left 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5771929415072535034, guid: 5ca7902febd8e45818f2dd8366e24cdb, type: 3}
+      propertyPath: sceneId
+      value: 464957092
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 5ca7902febd8e45818f2dd8366e24cdb, type: 3}
@@ -571,6 +579,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2396377664341946652, guid: e2a38010727b04790ba8637c07691028, type: 3}
+      propertyPath: sceneId
+      value: 1931075641
+      objectReference: {fileID: 0}
     - target: {fileID: 5127976494425549066, guid: e2a38010727b04790ba8637c07691028, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -759,6 +771,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2308535872160469994, guid: 862c89808e773450c9ad918e3cfbb67e, type: 3}
+      propertyPath: sceneId
+      value: 2655276627
+      objectReference: {fileID: 0}
     - target: {fileID: 8944850963994804474, guid: 862c89808e773450c9ad918e3cfbb67e, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -817,6 +833,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4295703251675112968, guid: ecf44a43cdbfe4252893d0e572e1a0c2, type: 3}
+      propertyPath: sceneId
+      value: 389003888
+      objectReference: {fileID: 0}
     - target: {fileID: 2115515490681714264, guid: ecf44a43cdbfe4252893d0e572e1a0c2, type: 3}
       propertyPath: m_Name
       value: Platform 3
@@ -969,6 +989,10 @@ PrefabInstance:
     - target: {fileID: 2361989576151836934, guid: 2807e3233ee804620bd871e705e5707a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4741286161987420431, guid: 2807e3233ee804620bd871e705e5707a, type: 3}
+      propertyPath: sceneId
+      value: 1520515805
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}

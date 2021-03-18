@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2361989576151836929}
   - component: {fileID: 2361989576151836930}
   - component: {fileID: 2361989576151836933}
+  - component: {fileID: 4741286161987420431}
+  - component: {fileID: -2078975035017856972}
   m_Layer: 6
   m_Name: Slider right 1
   m_TagString: SlidePlatform
@@ -145,6 +147,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2054cb5083e794b969fdee17baebf605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   slideDirection: 1
   positiveDirectionAtStart: 0
   distance: 1.8
@@ -168,3 +172,76 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
+--- !u!114 &4741286161987420431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2361989576151836931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
+--- !u!114 &-2078975035017856972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2361989576151836931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad225009ad414e1428332cab226f38fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  interpolationBackTime: 0.01
+  extrapolationMode: 2
+  useExtrapolationTimeLimit: 0
+  extrapolationTimeLimit: 5
+  useExtrapolationDistanceLimit: 0
+  extrapolationDistanceLimit: 20
+  sendPositionThreshold: 0
+  sendRotationThreshold: 0
+  sendScaleThreshold: 0
+  sendVelocityThreshold: 0
+  sendAngularVelocityThreshold: 0
+  receivedPositionThreshold: 0
+  receivedRotationThreshold: 0
+  snapPositionThreshold: 0
+  snapRotationThreshold: 0
+  snapScaleThreshold: 0
+  positionLerpSpeed: 0.85
+  rotationLerpSpeed: 0.85
+  scaleLerpSpeed: 0.85
+  timeCorrectionSpeed: 0.01
+  snapTimeThreshold: 0.3
+  syncPosition: 0
+  syncRotation: 0
+  syncScale: 0
+  syncVelocity: 0
+  syncAngularVelocity: 0
+  isPositionCompressed: 0
+  isRotationCompressed: 0
+  isScaleCompressed: 0
+  isVelocityCompressed: 0
+  isAngularVelocityCompressed: 0
+  automaticallyResetTime: 1
+  isSmoothingAuthorityChanges: 0
+  transformSource: 0
+  whenToUpdateTransform: 0
+  sendRate: 30
+  networkChannel: 1
+  childObjectToSync: {fileID: 0}
+  setVelocityInsteadOfPositionOnNonOwners: 0
+  maxPositionDifferenceForVelocitySyncing: 10
+  useLocalTransformOnly: 0
+  ownerChangeIndicator: 1
+  receivedStatesCounter: 0

@@ -367,6 +367,12 @@ MonoBehaviour:
   - {fileID: 5700347241161848949, guid: 7cbe518dfbb4b4f10bf64d847b4b6162, type: 3}
   - {fileID: 6818903222599744957, guid: 7c65da48d66c045029bf8d1241cd696b, type: 3}
   - {fileID: 667090720945680912, guid: faafd95af27b645bf924ec5eb8707943, type: 3}
+  - {fileID: 4771513916641431830, guid: 19ade7a9def764554a26dc46b93e3664, type: 3}
+  - {fileID: 8944850963994804475, guid: 862c89808e773450c9ad918e3cfbb67e, type: 3}
+  - {fileID: 2115515490681714264, guid: ecf44a43cdbfe4252893d0e572e1a0c2, type: 3}
+  - {fileID: 5127976494425549109, guid: e2a38010727b04790ba8637c07691028, type: 3}
+  - {fileID: 5600622355110477948, guid: 5ca7902febd8e45818f2dd8366e24cdb, type: 3}
+  - {fileID: 2361989576151836931, guid: 2807e3233ee804620bd871e705e5707a, type: 3}
 --- !u!1 &229184171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,6 +1095,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 421552435}
     m_Modifications:
+    - target: {fileID: -2308535872160469994, guid: 862c89808e773450c9ad918e3cfbb67e, type: 3}
+      propertyPath: sceneId
+      value: 1840720764
+      objectReference: {fileID: 0}
     - target: {fileID: 6049451540770468988, guid: 862c89808e773450c9ad918e3cfbb67e, type: 3}
       propertyPath: sceneId
       value: 3965412271

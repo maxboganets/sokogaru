@@ -1749,6 +1749,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4771513916641431829}
+  - component: {fileID: 6799015185263979250}
+  - component: {fileID: 821240689423702735}
   m_Layer: 3
   m_Name: Platform 1
   m_TagString: Untagged
@@ -1772,6 +1774,79 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6799015185263979250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771513916641431830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
+--- !u!114 &821240689423702735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4771513916641431830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad225009ad414e1428332cab226f38fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  interpolationBackTime: 0.01
+  extrapolationMode: 2
+  useExtrapolationTimeLimit: 0
+  extrapolationTimeLimit: 5
+  useExtrapolationDistanceLimit: 0
+  extrapolationDistanceLimit: 20
+  sendPositionThreshold: 0
+  sendRotationThreshold: 0
+  sendScaleThreshold: 0
+  sendVelocityThreshold: 0
+  sendAngularVelocityThreshold: 0
+  receivedPositionThreshold: 0
+  receivedRotationThreshold: 0
+  snapPositionThreshold: 0
+  snapRotationThreshold: 0
+  snapScaleThreshold: 0
+  positionLerpSpeed: 0.85
+  rotationLerpSpeed: 0.85
+  scaleLerpSpeed: 0.85
+  timeCorrectionSpeed: 0.01
+  snapTimeThreshold: 0.3
+  syncPosition: 0
+  syncRotation: 0
+  syncScale: 0
+  syncVelocity: 0
+  syncAngularVelocity: 0
+  isPositionCompressed: 0
+  isRotationCompressed: 0
+  isScaleCompressed: 0
+  isVelocityCompressed: 0
+  isAngularVelocityCompressed: 0
+  automaticallyResetTime: 1
+  isSmoothingAuthorityChanges: 0
+  transformSource: 0
+  whenToUpdateTransform: 0
+  sendRate: 30
+  networkChannel: 1
+  childObjectToSync: {fileID: 0}
+  setVelocityInsteadOfPositionOnNonOwners: 0
+  maxPositionDifferenceForVelocitySyncing: 10
+  useLocalTransformOnly: 0
+  ownerChangeIndicator: 1
+  receivedStatesCounter: 0
 --- !u!1 &4771513916657805370
 GameObject:
   m_ObjectHideFlags: 0
