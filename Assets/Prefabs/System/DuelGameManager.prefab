@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3423588313435148081}
   - component: {fileID: 8332604502160454310}
   - component: {fileID: 4186073985769959144}
-  - component: {fileID: 1460693038547657144}
+  - component: {fileID: 5251424397213350104}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: DuelGameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   currentMatchDebug: 
---- !u!114 &1460693038547657144
+--- !u!114 &5251424397213350104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 985218529048889941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c667a9d5bf87439db170fb4e3b00946, type: 3}
+  m_Script: {fileID: 11500000, guid: ecc3beaa1836a45db86d1b5794423678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0

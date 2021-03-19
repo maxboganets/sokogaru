@@ -76,7 +76,7 @@ namespace Sokogaru.Lobby
         public SyncListMatch matches = new SyncListMatch();
         public SyncList<string> matchIDs = new SyncList<string>();
 
-        [SerializeField] GameObject gameManagerPrefab;
+        [SerializeField] GameObject duelGameManagerPrefab;
 
         public static int matchIDLength = 5;
 
@@ -161,29 +161,66 @@ namespace Sokogaru.Lobby
             StartCoroutine(this._BeginGameAfterWait(_matchID));
         }
 
+        private void InstantiateGameManager(Match currentMatch)
+        {
+            GameObject newGameManager = null;
+            switch (currentMatch.gameModeController.mode)
+            {
+                case GameModeType.duel:
+                    newGameManager = Instantiate(this.duelGameManagerPrefab);
+                    break;
+            }
+            NetworkServer.Spawn(newGameManager);
+            newGameManager.GetComponent<NetworkMatchChecker>().matchId = currentMatch.matchID.ToGuid();
+            var gameManager = newGameManager.GetComponent<DuelModeManager>();
+            switch (currentMatch.gameModeController.mode)
+            {
+                case GameModeType.duel:
+                    gameManager =  newGameManager.GetComponent<DuelModeManager>();
+                    break;
+            }
+            // Init Game for all the players and load scene
+            foreach (var player in currentMatch.players)
+            {
+                Player _player = player.GetComponent<Player>();
+                gameManager.AddPlayer(_player);
+                _player.StartGame();
+            }
+            gameManager.StartMatch();
+        }
+
         private IEnumerator _BeginGameAfterWait(string _matchID)
         {
             yield return new WaitForSeconds(0.3F);
 
-            GameObject newGameManager = Instantiate(this.gameManagerPrefab);
-            NetworkServer.Spawn(newGameManager);
-            newGameManager.GetComponent<NetworkMatchChecker>().matchId = _matchID.ToGuid();
-            GameManager gameManager = newGameManager.GetComponent<GameManager>();
-
+            Match currentMatch = null;
             for (int i = 0; i < this.matches.Count; i++)
             {
                 if (this.matches[i].matchID == _matchID)
                 {
-                    foreach (var player in this.matches[i].players)
-                    {
-                        Player _player = player.GetComponent<Player>();
-                        gameManager.AddPlayer(_player);
-                        _player.StartGame();
-                    }
-                    yield return new WaitForSeconds(0.5F);
-                    gameManager.SpawnPlayers();
-                    break;
+                    currentMatch = this.matches[i];
                 }
+            }
+            if (currentMatch != null)
+            {
+                //GameObject gameManagerPrefab = this.GetGameManagerPrefab();
+                //GameObject newGameManager = Instantiate(gameManagerPrefab);
+                //NetworkServer.Spawn(newGameManager);
+                //newGameManager.GetComponent<NetworkMatchChecker>().matchId = _matchID.ToGuid();
+                ////var gameManager = newGameManager.GetComponent<GameManager>();
+                //var gameManager = this.GetGameManagerFromPrefab(newGameManager);
+
+                this.InstantiateGameManager(currentMatch);
+
+                //// Init Game for all the players and load scene
+                //foreach (var player in currentMatch.players)
+                //{
+                //    Player _player = player.GetComponent<Player>();
+                //    gameManager.AddPlayer(_player);
+                //    _player.StartGame();
+                //}
+                //yield return new WaitForSeconds(0.5F);
+                //gameManager.SpawnPlayers();
             }
         }
 
@@ -223,6 +260,11 @@ namespace Sokogaru.Lobby
                     break;
                 }
             }
+        }
+
+        public void EndGame()
+        {
+
         }
     }
 }
