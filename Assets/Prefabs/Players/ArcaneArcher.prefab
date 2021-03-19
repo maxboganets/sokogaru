@@ -379,7 +379,7 @@ MonoBehaviour:
   snapTimeThreshold: 0.1
   syncPosition: 1
   syncRotation: 7
-  syncScale: 7
+  syncScale: 4
   syncVelocity: 1
   syncAngularVelocity: 1
   isPositionCompressed: 0
@@ -389,7 +389,7 @@ MonoBehaviour:
   isAngularVelocityCompressed: 0
   automaticallyResetTime: 1
   isSmoothingAuthorityChanges: 1
-  transformSource: 0
+  transformSource: 1
   whenToUpdateTransform: 0
   sendRate: 30
   networkChannel: 1

@@ -46,14 +46,26 @@ public class PlayerController : NetworkBehaviour
 
     Rigidbody2D rigidbody2D;
 
-    private Vector2 movementInput = Vector2.zero;
+    // Class Constants
+    private string groundTag = "Floor";
+    private string interactiveObjectTag = "InteractiveObject";
+    private string slidePlatformTag = "SlidePlatform";
+    private string projectileTag = "Projectile";
+
+    // Class Variables
+    [SyncVar] private Vector2 movementInput = Vector2.zero;
     private ControlAction actionTriggered = ControlAction.none;
     private PlayerState playerState = PlayerState.idle;
     private PlayerFacing playerFacing;
+    private Color originalTintColor;
+    private int jumpInAirCurrent = 0;
+    [SyncVar] private bool isGrounded = false;
 
     private void Start()
     {
         rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        rigidbody2D.freezeRotation = true;
+        this.originalTintColor = gameObject.GetComponent<SpriteRenderer>().color;
     }
 
     // Callback function for OnMove
@@ -109,54 +121,25 @@ public class PlayerController : NetworkBehaviour
     private void ExecuteControlActions()
     {
         ControlAction cAction = this.GetActionTriggered();
-        //if (cAction == ControlAction.jump)
-        //{
-        //    //if (isGrounded || jumpInAirCurrent < jumpsInAirAllowed)
-        //    //{
-        //    //    this.SetPlayerState(PlayerState.jumping);
-        //    this.doJump();
-        //    //    jumpInAirCurrent++;
-        //    //}
-        //    this.SetActionTriggered(ControlAction.none);
-        //}
-        //if (movementInput.x != 0)
-        //{
-        //    //if (this.GetPlayerState() != PlayerState.jumping && isGrounded)
-        //    //{
-        //    //    this.SetPlayerState(PlayerState.running);
-        //    //}
-        //    UpdateFacing(movementInput.x > 0 ? PlayerFacing.right : PlayerFacing.left);
-        //    //this.doWalk();
-        //    this.DoCmdOnServer(ControlAction.jump);
-        //}
-        //else
-        //{
-        //    if (this.GetPlayerState() == PlayerState.running)
-        //    {
-        //        playerRigidBody2D.velocity = new Vector2(0, playerRigidBody2D.velocity.y);
-        //    }
-        //}
-        //if (cAction == ControlAction.rangeAttack)
-        //{
-        //    if (CanFireProjectile())
-        //    {
-        //        StartCoroutine(CreateProjectile());
-        //    }
-        //    this.SetActionTriggered(ControlAction.none);
-        //}
         if (cAction != ControlAction.none)
         {
             this.DoCmdOnServer(cAction);
         }
-        //this.SetActionTriggered(ControlAction.none);
     }
 
-    [Client]
     void Update()
     {
-        if (hasAuthority)
+        if (isServer)
         {
-            this.ExecuteControlActions();
+            this.VelocityState();
+            this.ClientUpdateState(this.GetPlayerState());
+        }
+        if (isClient)
+        {
+            if (hasAuthority)
+            {
+                this.ExecuteControlActions();
+            }
         }
     }
 
@@ -169,18 +152,77 @@ public class PlayerController : NetworkBehaviour
     private void DoCmdOnServer(ControlAction cAction)
     {
         if (cAction != ControlAction.none) {
-            if (cAction == ControlAction.walkLeft || cAction == ControlAction.walkRight || cAction == ControlAction.walkStop)
+            if (cAction == ControlAction.jump)
             {
-                this.doWalk(cAction);
-            } else
-            {
-                if (cAction == ControlAction.jump)
+                if (isGrounded || jumpInAirCurrent < jumpsInAirAllowed)
                 {
+                    this.SetPlayerState(PlayerState.jumping);
                     this.doJump();
+                    jumpInAirCurrent++;
                 }
-                this.TargetResetAction(ControlAction.none);
+                this.SetActionTriggered(ControlAction.none);
+            } else if (cAction == ControlAction.rangeAttack)
+            {
+                //if (CanFireProjectile())
+                //{
+                //    StartCoroutine(CreateProjectile());
+                //}
+                this.SetActionTriggered(ControlAction.none);
+            } else if (cAction == ControlAction.walkLeft || cAction == ControlAction.walkRight)
+            {
+                if (this.GetPlayerState() != PlayerState.jumping && isGrounded)
+                {
+                    this.SetPlayerState(PlayerState.running);
+                }
+                this.doWalk(cAction);
+                UpdateFacing(cAction == ControlAction.walkRight ? PlayerFacing.right : PlayerFacing.left);
+            }
+            else if (cAction == ControlAction.walkStop && isGrounded)
+            {
+                if (this.GetPlayerState() == PlayerState.running)
+                {
+                    rigidbody2D.velocity = new Vector2(0, rigidbody2D.velocity.y);
+                }
             }
         }
+    }
+
+    private void VelocityState()
+    {
+        PlayerState state = this.GetPlayerState();
+        if (state == PlayerState.idle || state == PlayerState.die)
+        {
+            return;
+        }
+
+        if (state == PlayerState.jumping)
+        {
+            if (rigidbody2D.velocity.y < .1F)
+            {
+                this.SetPlayerState(PlayerState.falling);
+            }
+        }
+        else if (state == PlayerState.falling)
+        {
+            if (isGrounded)
+            {
+                this.SetPlayerState(PlayerState.idle);
+            }
+        }
+        else if (Mathf.Abs(rigidbody2D.velocity.x) > 1F)
+        {
+            this.SetPlayerState(PlayerState.running);
+        }
+        else
+        {
+            this.SetPlayerState(PlayerState.idle);
+        }
+    }
+
+    [ClientRpc]
+    void ClientUpdateState(PlayerState playerState)
+    {
+        gameObject.GetComponent<Animator>().SetInteger("state", (int)playerState);
     }
 
     [TargetRpc]
@@ -219,6 +261,60 @@ public class PlayerController : NetworkBehaviour
     {
         actionTriggered = newAction;
     }
+
+    private PlayerState GetPlayerState()
+    {
+        return playerState;
+    }
+
+    private void SetPlayerState(PlayerState newState)
+    {
+        playerState = newState;
+    }
+
+
+
+
+
+    private bool CollideWithGround(Collision2D gameObject)
+    {
+        return (
+            gameObject.gameObject.tag == groundTag ||
+            gameObject.gameObject.tag == interactiveObjectTag ||
+            gameObject.gameObject.tag == slidePlatformTag
+        )
+            ? true
+            : false;
+    }
+
+    void OnCollisionEnter2D(Collision2D otherObj)
+    {
+        //int hitPower = this.GetDamageByCollision(otherObj);
+        //if (hitPower > 0)
+        //{
+        //    this.doHit(hitPower);
+        //    this.DoKnockBack(otherObj);
+        //}
+        if (this.CollideWithGround(otherObj))
+        {
+            isGrounded = true;
+            jumpInAirCurrent = 0;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D otherObj)
+    {
+        if (this.CollideWithGround(otherObj))
+        {
+            isGrounded = false;
+        }
+    }
+
+
+
+
+
+
 
     void doJump()
     {
