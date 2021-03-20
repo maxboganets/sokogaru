@@ -178,17 +178,17 @@ namespace Sokogaru.Lobby
             Debug.Log($"<color=green>Game Beginning</color>");
         }
 
-        public void StartGame()
+        public void StartGame(string sceneName)
         {
-            this.TargetBeginGame();
+            this.TargetBeginGame(sceneName);
         }
 
         [TargetRpc]
-        void TargetBeginGame()
+        void TargetBeginGame(string sceneName)
         {
             Debug.Log($"MatchID: {matchID} | Beginning");
             // Additively Load Game Scene
-            SceneManager.LoadScene(2, LoadSceneMode.Additive);
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
             // Hide Lobby Canvas
             UILobby.instance.DisableSceneUICanvas();
         }

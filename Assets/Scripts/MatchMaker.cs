@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Mirror;
 
 namespace Sokogaru.Lobby
@@ -51,6 +52,7 @@ namespace Sokogaru.Lobby
         public bool publicMatch;
         public bool inMatch;
         public bool matchFull;
+        public string sceneName;
 
         public SyncListGameObject players = new SyncListGameObject();
 
@@ -76,7 +78,9 @@ namespace Sokogaru.Lobby
         public SyncListMatch matches = new SyncListMatch();
         public SyncList<string> matchIDs = new SyncList<string>();
 
+        [Header("Duel Mode")]
         [SerializeField] GameObject duelGameManagerPrefab;
+        public List<string> duelSceneNames;
 
         public static int matchIDLength = 5;
 
@@ -85,14 +89,28 @@ namespace Sokogaru.Lobby
             instance = this;
         }
 
+        private string getRandomSceneNameForMode(GameModeType _gameMode)
+        {
+            List<string> sceneNamesArray = new List<string>();
+            switch (_gameMode)
+            {
+                case GameModeType.duel:
+                    sceneNamesArray = this.duelSceneNames;
+                    break;
+            }
+            return sceneNamesArray[Random.Range(0, sceneNamesArray.Count)];
+        }
+
         public bool HostGame(string _matchID, GameObject _player, bool publicMatch, out int playerIndex)
         {
             playerIndex = -1;
+            GameModeType gameMode = GameModeType.duel;
             if (!matchIDs.Contains(_matchID))
             {
                 this.matchIDs.Add(_matchID);
-                Match match = new Match(_matchID, _player, GameModeType.duel);
+                Match match = new Match(_matchID, _player, gameMode);
                 match.publicMatch = publicMatch;
+                match.sceneName = this.getRandomSceneNameForMode(gameMode);
                 this.matches.Add(match);
                 Debug.Log($"Match generated");
                 playerIndex = 1;
@@ -184,7 +202,7 @@ namespace Sokogaru.Lobby
             {
                 Player _player = player.GetComponent<Player>();
                 gameManager.AddPlayer(_player);
-                _player.StartGame();
+                _player.StartGame(currentMatch.sceneName);
             }
             gameManager.StartMatch();
         }
@@ -203,24 +221,7 @@ namespace Sokogaru.Lobby
             }
             if (currentMatch != null)
             {
-                //GameObject gameManagerPrefab = this.GetGameManagerPrefab();
-                //GameObject newGameManager = Instantiate(gameManagerPrefab);
-                //NetworkServer.Spawn(newGameManager);
-                //newGameManager.GetComponent<NetworkMatchChecker>().matchId = _matchID.ToGuid();
-                ////var gameManager = newGameManager.GetComponent<GameManager>();
-                //var gameManager = this.GetGameManagerFromPrefab(newGameManager);
-
                 this.InstantiateGameManager(currentMatch);
-
-                //// Init Game for all the players and load scene
-                //foreach (var player in currentMatch.players)
-                //{
-                //    Player _player = player.GetComponent<Player>();
-                //    gameManager.AddPlayer(_player);
-                //    _player.StartGame();
-                //}
-                //yield return new WaitForSeconds(0.5F);
-                //gameManager.SpawnPlayers();
             }
         }
 
