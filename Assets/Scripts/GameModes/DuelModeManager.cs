@@ -10,17 +10,15 @@ namespace Sokogaru.Lobby
         public override void StartMatch()
         {
             Debug.Log("<color=green>StartGame()</color>");
-            this.SpawnPlayers();
+            // Spawn Players with delay
+            // There is no scene loaded otherwise
+            StartCoroutine(this.SpawnPlayers());
         }
 
-        public void SpawnPlayers()
+        public IEnumerator SpawnPlayers()
         {
-            this.ClientSpawnPlayers();
-        }
 
-        void ClientSpawnPlayers()
-        {
-            Debug.Log($"<color=red>>>>>>>>> PLAYERS: </color>" + this.players.Count);
+            yield return new WaitForSeconds(0.1F);
             foreach (var player in this.players)
             {
                 var prefab = UILobby.instance.charactersPrefabs[player.characterIndex];
