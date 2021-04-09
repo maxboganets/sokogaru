@@ -17,7 +17,7 @@ namespace Sokogaru.Lobby
 
         NetworkMatchChecker networkMatchChecker;
         GameObject playerLobbyUI;
-        //public NetworkConnection connectionToClient;
+        public GameObject characterObject;
 
         void Awake()
         {

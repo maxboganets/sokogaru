@@ -10,8 +10,7 @@ namespace Sokogaru.Lobby
         public override void StartMatch()
         {
             Debug.Log("<color=green>StartGame()</color>");
-            // Spawn Players with delay
-            // There is no scene loaded otherwise
+            // Spawn Players with delay after scene spawn
             StartCoroutine(this.SpawnPlayers());
         }
 
@@ -27,6 +26,7 @@ namespace Sokogaru.Lobby
                 NetworkIdentity m_Identity = player.GetComponent<NetworkIdentity>();
                 NetworkServer.Spawn(playerCharacterObject, m_Identity.connectionToClient);
                 playerCharacterObject.GetComponent<NetworkIdentity>().AssignClientAuthority(m_Identity.connectionToClient);
+                this.AssignCharacterObject(player, playerCharacterObject);
             }
         }
     }
